@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GURU AI - Pricing | Flexible Plans</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .pricing-header {
+            text-align: center;
+            padding: 60px 0 40px;
+        }
+        
+        .pricing-header h1 {
+            font-size: 52px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .pricing-header p {
+            font-size: 18px;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .pricing-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .toggle-btn {
+            padding: 12px 30px;
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            color: var(--gray);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+        
+        .toggle-btn.active {
+            background: var(--gradient-primary);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .save-badge {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .pricing-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 40px;
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+        }
+        
+        .pricing-card.popular {
+            border: 2px solid var(--primary);
+            transform: scale(1.05);
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient-primary);
+            color: white;
+            padding: 8px 25px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .pricing-header-card {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .pricing-name {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .pricing-price {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .pricing-price span {
+            font-size: 16px;
+            color: var(--gray);
+            font-weight: 400;
+        }
+        
+        .pricing-period {
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        .pricing-features {
+            margin: 30px 0;
+        }
+        
+        .pricing-feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .pricing-feature:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-check {
+            color: var(--success);
+            font-size: 14px;
+            min-width: 20px;
+        }
+        
+        .feature-minus {
+            color: var(--danger);
+            font-size: 14px;
+            min-width: 20px;
+        }
+        
+        .pricing-footer {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .pricing-btn {
+            width: 100%;
+            padding: 15px;
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .pricing-btn:hover {
+            background: var(--gradient-primary);
+            border-color: transparent;
+        }
+        
+        .pricing-btn.popular-btn {
+            background: var(--gradient-primary);
+        }
+        
+        .quarterly-info {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 50px;
+            margin: 80px 0;
+        }
+        
+        .quarterly-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .quarterly-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .quarterly-card {
+            text-align: center;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            position: relative;
+        }
+        
+        .quarterly-number {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient-primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        
+        .quarterly-name {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 20px 0 15px;
+        }
+        
+        .quarterly-months {
+            color: var(--gray);
+            margin-bottom: 15px;
+        }
+        
+        .quarterly-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .faq-section {
+            padding: 60px 0;
+        }
+        
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .faq-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+        }
+        
+        .faq-question {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .faq-answer {
+            color: var(--gray);
+            line-height: 1.6;
+        }
+        
+        @media (max-width: 768px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .quarterly-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .faq-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="logo">
+                <div class="logo-icon">G</div>
+                <div class="logo-text">GURU AI</div>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">HOME</a>
+                <a href="product.html" class="nav-link">PRODUCT</a>
+                <a href="pricing.html" class="nav-link active">PRICING</a>
+                <a href="contact.html" class="nav-link">CONTACT US</a>
+            </div>
+            
+            <div class="nav-buttons">
+                <a href="login.html" class="btn btn-outline">Log In</a>
+                <a href="register.html" class="btn btn-primary">Start Free Trial</a>
+            </div>
+        </nav>
+
+        <!-- Pricing Header -->
+        <div class="pricing-header">
+            <h1>Simple, <span style="color: var(--primary);">Transparent</span> Pricing</h1>
+            <p>Choose the perfect plan for your business. All plans include a 14-day free trial. No credit card required.</p>
+        </div>
+
+        <!-- Pricing Toggle -->
+        <div class="pricing-toggle">
+            <button class="toggle-btn active" onclick="togglePricing('monthly')">Monthly</button>
+            <button class="toggle-btn" onclick="togglePricing('yearly')">Yearly <span class="save-badge">Save 20%</span></button>
+        </div>
+
+        <!-- Pricing Grid -->
+        <div class="pricing-grid" id="pricingGrid">
+            <!-- Starter Plan -->
+            <div class="pricing-card">
+                <div class="pricing-header-card">
+                    <h3 class="pricing-name">Starter</h3>
+                    <div class="pricing-price" id="starterPrice">$49<span>/month</span></div>
+                    <div class="pricing-period" id="starterPeriod">billed monthly</div>
+                </div>
+                
+                <div class="pricing-features">
+                    <div class="pricing-feature">
+                        <i class="fas fa-check feature-check"></i>
+                        <span>Up to 1,000 orders/month</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check feature-check"></i>
+                        <span>Basic AI Campaigns</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check feature-check"></i>
+                        <span>Email Automation</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check feature-check"></i>
+                        <span>Basic Analytics</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-minus feature-minus"></i>
+                        <span>Supplier Payments</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-minus feature-minus"></i>
+                        <span>Predictive Analytics</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-minus feature-minus"></i>
+                        <span>API Access</span>
+                    </div>
+                </div>
+                
+                <div class="pricing-footer">
+                    <a href="register.html" class="pricing-btn">Start Free Trial</a>
+                </div>
+            </div>
+            
+            <!-- Professional Plan (Popular) -->
+            <div class="pricing-card popular">
+                <div class="popular-badge">MOST POPULAR</div>
+                <div class="pricing-header-card">
+                    <h3 class="pricing-name">Professional</h3>
+                    <div class="pricing-price" id="proPrice">$99<span>/month</span></div>
+                    <div class="pricing-period" id="proPeriod">billed monthly</div>
+                </div>
+                
+                <div class="pricing-features">
+                    <div class="pricing-feature">
+                        <i class="fas fa-check feature-check"></i>
+                        <span>Up to 5,000 orders/month</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check feature-check"></i>
+                        <span>Advanced AI Campaigns</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check feature-check"></i>
+                        <span>Email Automation + SMS</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check feature-check"></i>
+                        <span>Advanced Analytics</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check feature-check"></i>
+                        <span>Supplier Payments</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check feature-check"></i>
+                        <span>Basic Predictive Analytics</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-minus feature-minus"></i>
+                        <span>API Access</span>
+                    </div>
+                </div>
+                
+                <div class="pricing-footer">
+                    <a href="register.html" class="pricing-btn popular-btn">Start Free Trial</a>
+                </div>
+            </div>
+            
+            <!-- Enterprise Plan -->
+            <div class="pricing-card">
+                <div class="pricing-header-card">
+                    <h3 class="pricing-name">Enterprise</h3>
+                    <div class="pricing-price" id="enterprisePrice">$199<span>/month</span></div>
+                    <div class="pricing-period" id="enterprisePeriod">billed monthly</div>
+                </div>
+                
+                <div class="pricing-features">
+                    <div class="pricing-feature">
+                        <i class="fas fa-check feature-check"></i>
+                        <span>Unlimited orders</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check feature-check"></i>
+                        <span>Custom AI Campaigns</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check feature-check"></i>
+                        <span>Multi-channel Marketing</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check feature-check"></i>
+                        <span>Custom Analytics</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check feature-check"></i>
+                        <span>Supplier Payments Pro</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check feature-check"></i>
+                        <span>Advanced Predictive Analytics</span>
+                    </div>
+                    <div class="pricing-feature">
+                        <i class="fas fa-check feature-check"></i>
+                        <span>Full API Access</span>
+                    </div>
+                </div>
+                
+                <div class="pricing-footer">
+                    <a href="contact.html" class="pricing-btn">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quarterly Info Section -->
+        <div class="quarterly-info">
+            <h3 class="quarterly-title">Flexible Quarterly Plans</h3>
+            <p style="text-align: center; color: var(--gray); margin-bottom: 40px;">
+                Every trimester includes 3 months of subscription with special benefits
+            </p>
+            
+            <div class="quarterly-grid">
+                <div class="quarterly-card">
+                    <div class="quarterly-number">1</div>
+                    <i class="fas fa-seedling" style="font-size: 40px; color: var(--primary); margin: 20px 0;"></i>
+                    <div class="quarterly-name">Q1 - Growth</div>
+                    <div class="quarterly-months">January - March</div>
+                    <div class="quarterly-price">$135 <span style="font-size: 14px; color: var(--gray);">/trimester</span></div>
+                    <p style="color: var(--gray); font-size: 13px; margin-top: 15px;">Save 15% compared to monthly</p>
+                </div>
+                
+                <div class="quarterly-card">
+                    <div class="quarterly-number">2</div>
+                    <i class="fas fa-rocket" style="font-size: 40px; color: var(--primary); margin: 20px 0;"></i>
+                    <div class="quarterly-name">Q2 - Scale</div>
+                    <div class="quarterly-months">April - June</div>
+                    <div class="quarterly-price">$135 <span style="font-size: 14px; color: var(--gray);">/trimester</span></div>
+                    <p style="color: var(--gray); font-size: 13px; margin-top: 15px;">Includes Q1 features + bonus</p>
+                </div>
+                
+                <div class="quarterly-card">
+                    <div class="quarterly-number">3</div>
+                    <i class="fas fa-crown" style="font-size: 40px; color: var(--primary); margin: 20px 0;"></i>
+                    <div class="quarterly-name">Q3 - Optimize</div>
+                    <div class="quarterly-months">July - September</div>
+                    <div class="quarterly-price">$135 <span style="font-size: 14px; color: var(--gray);">/trimester</span></div>
+                    <p style="color: var(--gray); font-size: 13px; margin-top: 15px;">Advanced optimization tools</p>
+                </div>
+            </div>
+            
+            <p style="text-align: center; color: var(--gray); margin-top: 30px; font-size: 14px;">
+                <i class="fas fa-info-circle"></i> All trimesters include 3 months of subscription with dedicated support
+            </p>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="faq-section">
+            <div class="section-header">
+                <div class="section-badge">FAQ</div>
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <p class="section-description">Got questions? We've got answers.</p>
+            </div>
+            
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question">Can I change plans later?</div>
+                    <div class="faq-answer">Yes, you can upgrade or downgrade your plan at any time. Changes will be reflected in your next billing cycle.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">What payment methods do you accept?</div>
+                    <div class="faq-answer">We accept all major credit cards, PayPal, and bank transfers for annual plans.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Is there a setup fee?</div>
+                    <div class="faq-answer">No, there are no setup fees. You only pay the subscription price.</div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">Can I cancel anytime?</div>
+                    <div class="faq-answer">Yes, you can cancel your subscription at any time. No questions asked.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <div class="logo" style="margin-bottom: 20px;">
+                        <div class="logo-icon">G</div>
+                        <div class="logo-text">GURU AI</div>
+                    </div>
+                    <p>
+                        The most intelligent e-commerce platform for Shopify stores. Automate, optimize, and grow with AI.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="footer-title">Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="product.html">Features</a></li>
+                        <li><a href="pricing.html">Pricing</a></li>
+                        <li><a href="#">Integrations</a></li>
+                        <li><a href="#">API</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="footer-title">Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Community</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="footer-title">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="footer-title">Contact</h4>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope"></i> hello@guruai.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-map-marker-alt"></i> San Francisco, CA</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div>&copy; 2024 GURU AI. All rights reserved.</div>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        function togglePricing(period) {
+            const monthlyBtn = document.querySelector('.toggle-btn:first-child');
+            const yearlyBtn = document.querySelector('.toggle-btn:last-child');
+            
+            if (period === 'monthly') {
+                monthlyBtn.classList.add('active');
+                yearlyBtn.classList.remove('active');
+                
+                document.getElementById('starterPrice').innerHTML = '$49<span>/month</span>';
+                document.getElementById('starterPeriod').innerHTML = 'billed monthly';
+                
+                document.getElementById('proPrice').innerHTML = '$99<span>/month</span>';
+                document.getElementById('proPeriod').innerHTML = 'billed monthly';
+                
+                document.getElementById('enterprisePrice').innerHTML = '$199<span>/month</span>';
+                document.getElementById('enterprisePeriod').innerHTML = 'billed monthly';
+            } else {
+                monthlyBtn.classList.remove('active');
+                yearlyBtn.classList.add('active');
+                
+                document.getElementById('starterPrice').innerHTML = '$470<span>/year</span>';
+                document.getElementById('starterPeriod').innerHTML = 'billed annually (save 20%)';
+                
+                document.getElementById('proPrice').innerHTML = '$950<span>/year</span>';
+                document.getElementById('proPeriod').innerHTML = 'billed annually (save 20%)';
+                
+                document.getElementById('enterprisePrice').innerHTML = '$1,910<span>/year</span>';
+                document.getElementById('enterprisePeriod').innerHTML = 'billed annually (save 20%)';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -3,341 +3,737 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOLANO AI - Intelligent E-commerce Platform</title>
+    <title>GURU AI - Intelligent E-commerce Platform</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://kit.fontawesome.com/your-kit-code.js"></script>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+            --gradient-dark: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --border-glow: 0 0 15px rgba(99, 102, 241, 0.5);
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            overflow-x: hidden;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--gray);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+
+        .nav-link:hover {
+            color: white;
+        }
+
+        .nav-link.active {
+            color: white;
+            position: relative;
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn-large {
+            padding: 15px 40px;
+            font-size: 18px;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 30px;
+            color: var(--primary);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .hero-title {
+            font-size: 58px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 30px;
+        }
+
+        .hero-title span {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-description {
+            font-size: 18px;
+            color: var(--gray);
+            line-height: 1.6;
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .hero-stat-label {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .hero-image {
+            position: relative;
+        }
+
+        .hero-image img {
+            width: 100%;
+            border-radius: 30px;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .floating-card {
+            position: absolute;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 15px 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            animation: float 3s infinite;
+        }
+
+        .floating-card-1 {
+            top: 50px;
+            left: -50px;
+        }
+
+        .floating-card-2 {
+            bottom: 50px;
+            right: -50px;
+            animation-delay: 1s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 80px;
+        }
+
+        .section-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 30px;
+            color: var(--primary);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .section-description {
+            font-size: 18px;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 40px 30px;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient-primary);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin-bottom: 30px;
+        }
+
+        .feature-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .feature-description {
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
+            border-radius: 50px;
+            padding: 80px;
+            text-align: center;
+            margin: 100px 0;
+        }
+
+        .cta-title {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .cta-description {
+            font-size: 18px;
+            color: var(--gray);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 80px 0 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 80px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-about p {
+            color: var(--gray);
+            line-height: 1.6;
+            margin: 20px 0;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .footer-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray);
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .footer-bottom-links a {
+            color: var(--gray);
+            text-decoration: none;
+        }
+
+        @media (max-width: 1200px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero {
+                grid-template-columns: 1fr;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <div id="particles-js"></div>
 
-    <div class="app-wrapper">
-        <!-- Sidebar -->
-        <aside class="sidebar" id="sidebar">
-            <div class="logo-area">
-                <div class="logo-icon">S</div>
-                <div>
-                    <div class="logo-text">SALANO AI</div>
-                    <div class="logo-badge">v2.0 • Enterprise</div>
-                </div>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="logo">
+                <div class="logo-icon">G</div>
+                <div class="logo-text">GURU AI</div>
             </div>
-
-            <!-- Dashboard Category -->
-            <div class="nav-category">
-                <div class="category-header">
-                    <i class="fas fa-compass"></i>
-                    <span>Dashboard</span>
-                </div>
-                <ul class="nav-items">
-                    <li class="nav-item">
-                        <a href="dashboard/overview.html" class="nav-link" data-page="overview">
-                            <i class="fas fa-chart-pie"></i>
-                            <span>Overview</span>
-                            <span class="nav-badge">Live</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="dashboard/analytics.html" class="nav-link" data-page="analytics">
-                            <i class="fas fa-chart-line"></i>
-                            <span>Analytics</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="dashboard/alerts.html" class="nav-link" data-page="alerts">
-                            <i class="fas fa-bell"></i>
-                            <span>Alerts</span>
-                            <span class="nav-badge" id="alertBadge">3</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Commerce Category -->
-            <div class="nav-category">
-                <div class="category-header">
-                    <i class="fas fa-store"></i>
-                    <span>Commerce</span>
-                </div>
-                <ul class="nav-items">
-                    <li class="nav-item">
-                        <a href="commerce/orders.html" class="nav-link" data-page="orders">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span>Orders</span>
-                            <span class="nav-badge" id="orderBadge">12</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="commerce/products.html" class="nav-link" data-page="products">
-                            <i class="fas fa-cube"></i>
-                            <span>Products</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="commerce/customers.html" class="nav-link" data-page="customers">
-                            <i class="fas fa-users"></i>
-                            <span>Customers</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="commerce/discounts.html" class="nav-link" data-page="discounts">
-                            <i class="fas fa-tag"></i>
-                            <span>Discounts</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Marketing Category -->
-            <div class="nav-category">
-                <div class="category-header">
-                    <i class="fas fa-bullhorn"></i>
-                    <span>Marketing</span>
-                </div>
-                <ul class="nav-items">
-                    <li class="nav-item">
-                        <a href="marketing/campaigns.html" class="nav-link" data-page="campaigns">
-                            <i class="fas fa-ad"></i>
-                            <span>Campaigns</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="marketing/facebook-ads.html" class="nav-link" data-page="facebook">
-                            <i class="fab fa-facebook"></i>
-                            <span>Facebook Ads</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="marketing/instagram-ads.html" class="nav-link" data-page="instagram">
-                            <i class="fab fa-instagram"></i>
-                            <span>Instagram Ads</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="marketing/tiktok-ads.html" class="nav-link" data-page="tiktok">
-                            <i class="fab fa-tiktok"></i>
-                            <span>TikTok Ads</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- AI Tools Category -->
-            <div class="nav-category">
-                <div class="category-header">
-                    <i class="fas fa-robot"></i>
-                    <span>AI Tools</span>
-                </div>
-                <ul class="nav-items">
-                    <li class="nav-item">
-                        <a href="ai-tools/campaign-generator.html" class="nav-link" data-page="campaign-generator">
-                            <i class="fas fa-magic"></i>
-                            <span>Campaign Generator</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="ai-tools/predictive-analytics.html" class="nav-link" data-page="predictive">
-                            <i class="fas fa-chart-bar"></i>
-                            <span>Predictive Analytics</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="ai-tools/content-generator.html" class="nav-link" data-page="content">
-                            <i class="fas fa-file-alt"></i>
-                            <span>Content Generator</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="ai-tools/competitor-analysis.html" class="nav-link" data-page="competitor">
-                            <i class="fas fa-eye"></i>
-                            <span>Competitor Analysis</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Automation Category -->
-            <div class="nav-category">
-                <div class="category-header">
-                    <i class="fas fa-clock"></i>
-                    <span>Automation</span>
-                </div>
-                <ul class="nav-items">
-                    <li class="nav-item">
-                        <a href="automation/workflows.html" class="nav-link" data-page="workflows">
-                            <i class="fas fa-rocket"></i>
-                            <span>Workflows</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="automation/email-sequences.html" class="nav-link" data-page="email">
-                            <i class="fas fa-envelope"></i>
-                            <span>Email Sequences</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="automation/supplier-payments.html" class="nav-link" data-page="payments">
-                            <i class="fas fa-credit-card"></i>
-                            <span>Supplier Payments</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Chat Category - SEPARATE -->
-            <div class="nav-category chat-category">
-                <div class="category-header">
-                    <i class="fas fa-comment-dots" style="color: var(--accent);"></i>
-                    <span style="color: var(--accent);">AI Chat</span>
-                </div>
-                <ul class="nav-items">
-                    <li class="nav-item">
-                        <a href="chat/ai-assistant.html" class="nav-link chat-link" data-page="chat">
-                            <i class="fas fa-comment"></i>
-                            <span>AI Assistant</span>
-                            <span class="nav-badge" style="background: var(--accent);">24/7</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- AI Status -->
-            <div class="ai-status">
-                <div class="ai-status-header">
-                    <div class="ai-pulse"></div>
-                    <span class="ai-status-text">GURU AI Active</span>
-                </div>
-                <div class="ai-metrics">
-                    <div class="ai-metric">
-                        <div class="ai-metric-value">98%</div>
-                        <div class="ai-metric-label">Accuracy</div>
-                    </div>
-                    <div class="ai-metric">
-                        <div class="ai-metric-value">24/7</div>
-                        <div class="ai-metric-label">Learning</div>
-                    </div>
-                </div>
-            </div>
-        </aside>
-
-        <!-- Main Content - IFrame to load pages -->
-        <main class="main-content">
-            <div class="top-bar">
-                <div class="page-title">
-                    <span id="currentPageTitle">Overview Dashboard</span>
-                    <span id="pageBreadcrumb">Welcome back, Guru</span>
-                </div>
-                <div class="top-actions">
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Search anything..." id="globalSearch">
-                    </div>
-                    <div class="profile-btn" onclick="toggleProfileMenu()">
-                        <i class="fas fa-user"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Content Area -->
-            <div class="content-area" id="contentArea">
-                <iframe src="dashboard/overview.html" id="contentFrame" frameborder="0"></iframe>
-            </div>
-        </main>
-    </div>
-
-    <!-- Toast Notification -->
-    <div class="toast" id="toast">
-        <i class="fas fa-check-circle" style="color: var(--success);"></i>
-        <span id="toastMessage">Welcome to GURU AI</span>
-    </div>
-
-    <script src="js/main.js"></script>
-    <script>
-        // Initialize particles
-        particlesJS('particles-js', {
-            particles: {
-                number: { value: 50, density: { enable: true, value_area: 800 } },
-                color: { value: '#6366f1' },
-                shape: { type: 'circle' },
-                opacity: { value: 0.2, random: true },
-                size: { value: 3, random: true },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: '#6366f1',
-                    opacity: 0.1,
-                    width: 1
-                },
-                move: {
-                    enable: true,
-                    speed: 1,
-                    direction: 'none',
-                    random: true,
-                    straight: false,
-                    out_mode: 'out',
-                    bounce: false
-                }
-            },
-            interactivity: {
-                detect_on: 'canvas',
-                events: {
-                    onhover: { enable: true, mode: 'repulse' },
-                    onclick: { enable: true, mode: 'push' },
-                    resize: true
-                }
-            },
-            retina_detect: true
-        });
-
-        // Update active page based on URL
-        function updateActivePage() {
-            const path = window.location.pathname;
-            const links = document.querySelectorAll('.nav-link');
             
-            links.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === path) {
-                    link.classList.add('active');
-                }
-            });
-        }
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link active">HOME</a>
+                <a href="product.html" class="nav-link">PRODUCT</a>
+                <a href="pricing.html" class="nav-link">PRICING</a>
+                <a href="contact.html" class="nav-link">CONTACT US</a>
+            </div>
+            
+            <div class="nav-buttons">
+                <a href="login.html" class="btn btn-outline">Log In</a>
+                <a href="register.html" class="btn btn-primary">Start Free Trial</a>
+            </div>
+        </nav>
 
-        // Load content in iframe
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const href = this.getAttribute('href');
-                document.getElementById('contentFrame').src = href;
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-robot"></i> Powered by Advanced AI
+                </div>
+                <h1 class="hero-title">
+                    Transform Your <span>E-commerce</span> Business with AI
+                </h1>
+                <p class="hero-description">
+                    Automate your Shopify store, optimize campaigns, and increase revenue with our intelligent platform.
+                </p>
+                <div style="display: flex; gap: 20px;">
+                    <a href="register.html" class="btn btn-primary btn-large">Get Started Free</a>
+                    <a href="product.html" class="btn btn-outline btn-large">Learn More</a>
+                </div>
                 
-                // Update active state
-                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">10,000+</div>
+                        <div class="hero-stat-label">Active Stores</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">$2.5B+</div>
+                        <div class="hero-stat-label">Revenue Generated</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">98%</div>
+                        <div class="hero-stat-label">Customer Satisfaction</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-image">
+                <img src="https://placehold.co/600x400/1e293b/6366f1?text=GURU+AI+Dashboard" alt="Dashboard Preview">
+                <div class="floating-card floating-card-1">
+                    <i class="fas fa-chart-line" style="color: var(--success);"></i>
+                    <div>
+                        <div style="font-weight: 600;">Revenue +23%</div>
+                        <div style="font-size: 12px; color: var(--gray);">This month</div>
+                    </div>
+                </div>
+                <div class="floating-card floating-card-2">
+                    <i class="fas fa-shopping-cart" style="color: var(--primary);"></i>
+                    <div>
+                        <div style="font-weight: 600;">1,234 Orders</div>
+                        <div style="font-size: 12px; color: var(--gray);">Last 7 days</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <div class="section-header">
+                <div class="section-badge">FEATURES</div>
+                <h2 class="section-title">Everything You Need to Scale</h2>
+                <p class="section-description">
+                    AI-powered tools to automate, optimize, and grow your e-commerce business
+                </p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="feature-title">AI Campaign Manager</h3>
+                    <p class="feature-description">
+                        Automatically create and optimize ad campaigns across Facebook, Instagram, and TikTok
+                    </p>
+                </div>
                 
-                // Update title
-                const pageName = this.querySelector('span').textContent;
-                document.getElementById('currentPageTitle').textContent = pageName;
-            });
-        });
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="feature-title">Predictive Analytics</h3>
+                    <p class="feature-description">
+                        Forecast sales, inventory needs, and customer behavior with 95% accuracy
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3 class="feature-title">Email Automation</h3>
+                    <p class="feature-description">
+                        Intelligent email sequences that recover abandoned carts and increase customer lifetime value
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <h3 class="feature-title">Supplier Payments</h3>
+                    <p class="feature-description">
+                        Automated payment processing and reconciliation with all your suppliers
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h3 class="feature-title">Advanced Analytics</h3>
+                    <p class="feature-description">
+                        Real-time insights into your store performance with customizable reports
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 class="feature-title">24/7 AI Support</h3>
+                    <p class="feature-description">
+                        Get instant answers to your e-commerce questions from our AI assistant
+                    </p>
+                </div>
+            </div>
+        </section>
 
-        // Global search
-        document.getElementById('globalSearch').addEventListener('input', function(e) {
-            if (e.target.value.length > 2) {
-                showToast(`Searching for "${e.target.value}"...`);
-            }
-        });
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2 class="cta-title">Ready to Transform Your Store?</h2>
+            <p class="cta-description">
+                Join thousands of successful e-commerce businesses using GURU AI to automate and grow.
+            </p>
+            <div class="cta-buttons">
+                <a href="register.html" class="btn btn-primary btn-large">Start Your Free Trial</a>
+                <a href="contact.html" class="btn btn-outline btn-large">Schedule a Demo</a>
+            </div>
+            <p style="color: var(--gray); margin-top: 20px; font-size: 14px;">
+                No credit card required • 14-day free trial • Cancel anytime
+            </p>
+        </section>
 
-        // Profile menu
-        function toggleProfileMenu() {
-            showToast('Profile menu - Coming soon!');
-        }
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <div class="logo" style="margin-bottom: 20px;">
+                        <div class="logo-icon">G</div>
+                        <div class="logo-text">GURU AI</div>
+                    </div>
+                    <p>
+                        The most intelligent e-commerce platform for Shopify stores. Automate, optimize, and grow with AI.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="footer-title">Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="product.html">Features</a></li>
+                        <li><a href="pricing.html">Pricing</a></li>
+                        <li><a href="#">Integrations</a></li>
+                        <li><a href="#">API</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="footer-title">Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Community</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="footer-title">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="footer-title">Contact</h4>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope"></i> hello@guruai.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-map-marker-alt"></i> San Francisco, CA</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div>&copy; 2024 GURU AI. All rights reserved.</div>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </footer>
+    </div>
 
-        // Toast function
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            const toastMessage = document.getElementById('toastMessage');
-            toastMessage.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
-    </script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
