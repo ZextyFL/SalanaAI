@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GURU AI - Intelligent E-commerce Platform</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://kit.fontawesome.com/your-kit-code.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+</head>
+<body>
+    <div id="particles-js"></div>
+
+    <div class="app-wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="logo-area">
+                <div class="logo-icon">G</div>
+                <div>
+                    <div class="logo-text">GURU AI</div>
+                    <div class="logo-badge">v2.0 • Enterprise</div>
+                </div>
+            </div>
+
+            <!-- Dashboard Category -->
+            <div class="nav-category">
+                <div class="category-header">
+                    <i class="fas fa-compass"></i>
+                    <span>Dashboard</span>
+                </div>
+                <ul class="nav-items">
+                    <li class="nav-item">
+                        <a href="dashboard/overview.html" class="nav-link" data-page="overview">
+                            <i class="fas fa-chart-pie"></i>
+                            <span>Overview</span>
+                            <span class="nav-badge">Live</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="dashboard/analytics.html" class="nav-link" data-page="analytics">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="dashboard/alerts.html" class="nav-link" data-page="alerts">
+                            <i class="fas fa-bell"></i>
+                            <span>Alerts</span>
+                            <span class="nav-badge" id="alertBadge">3</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Commerce Category -->
+            <div class="nav-category">
+                <div class="category-header">
+                    <i class="fas fa-store"></i>
+                    <span>Commerce</span>
+                </div>
+                <ul class="nav-items">
+                    <li class="nav-item">
+                        <a href="commerce/orders.html" class="nav-link" data-page="orders">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Orders</span>
+                            <span class="nav-badge" id="orderBadge">12</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="commerce/products.html" class="nav-link" data-page="products">
+                            <i class="fas fa-cube"></i>
+                            <span>Products</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="commerce/customers.html" class="nav-link" data-page="customers">
+                            <i class="fas fa-users"></i>
+                            <span>Customers</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="commerce/discounts.html" class="nav-link" data-page="discounts">
+                            <i class="fas fa-tag"></i>
+                            <span>Discounts</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Marketing Category -->
+            <div class="nav-category">
+                <div class="category-header">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>Marketing</span>
+                </div>
+                <ul class="nav-items">
+                    <li class="nav-item">
+                        <a href="marketing/campaigns.html" class="nav-link" data-page="campaigns">
+                            <i class="fas fa-ad"></i>
+                            <span>Campaigns</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="marketing/facebook-ads.html" class="nav-link" data-page="facebook">
+                            <i class="fab fa-facebook"></i>
+                            <span>Facebook Ads</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="marketing/instagram-ads.html" class="nav-link" data-page="instagram">
+                            <i class="fab fa-instagram"></i>
+                            <span>Instagram Ads</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="marketing/tiktok-ads.html" class="nav-link" data-page="tiktok">
+                            <i class="fab fa-tiktok"></i>
+                            <span>TikTok Ads</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- AI Tools Category -->
+            <div class="nav-category">
+                <div class="category-header">
+                    <i class="fas fa-robot"></i>
+                    <span>AI Tools</span>
+                </div>
+                <ul class="nav-items">
+                    <li class="nav-item">
+                        <a href="ai-tools/campaign-generator.html" class="nav-link" data-page="campaign-generator">
+                            <i class="fas fa-magic"></i>
+                            <span>Campaign Generator</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="ai-tools/predictive-analytics.html" class="nav-link" data-page="predictive">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Predictive Analytics</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="ai-tools/content-generator.html" class="nav-link" data-page="content">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Content Generator</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="ai-tools/competitor-analysis.html" class="nav-link" data-page="competitor">
+                            <i class="fas fa-eye"></i>
+                            <span>Competitor Analysis</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Automation Category -->
+            <div class="nav-category">
+                <div class="category-header">
+                    <i class="fas fa-clock"></i>
+                    <span>Automation</span>
+                </div>
+                <ul class="nav-items">
+                    <li class="nav-item">
+                        <a href="automation/workflows.html" class="nav-link" data-page="workflows">
+                            <i class="fas fa-rocket"></i>
+                            <span>Workflows</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="automation/email-sequences.html" class="nav-link" data-page="email">
+                            <i class="fas fa-envelope"></i>
+                            <span>Email Sequences</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="automation/supplier-payments.html" class="nav-link" data-page="payments">
+                            <i class="fas fa-credit-card"></i>
+                            <span>Supplier Payments</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Chat Category - SEPARATE -->
+            <div class="nav-category chat-category">
+                <div class="category-header">
+                    <i class="fas fa-comment-dots" style="color: var(--accent);"></i>
+                    <span style="color: var(--accent);">AI Chat</span>
+                </div>
+                <ul class="nav-items">
+                    <li class="nav-item">
+                        <a href="chat/ai-assistant.html" class="nav-link chat-link" data-page="chat">
+                            <i class="fas fa-comment"></i>
+                            <span>AI Assistant</span>
+                            <span class="nav-badge" style="background: var(--accent);">24/7</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- AI Status -->
+            <div class="ai-status">
+                <div class="ai-status-header">
+                    <div class="ai-pulse"></div>
+                    <span class="ai-status-text">GURU AI Active</span>
+                </div>
+                <div class="ai-metrics">
+                    <div class="ai-metric">
+                        <div class="ai-metric-value">98%</div>
+                        <div class="ai-metric-label">Accuracy</div>
+                    </div>
+                    <div class="ai-metric">
+                        <div class="ai-metric-value">24/7</div>
+                        <div class="ai-metric-label">Learning</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content - IFrame to load pages -->
+        <main class="main-content">
+            <div class="top-bar">
+                <div class="page-title">
+                    <span id="currentPageTitle">Overview Dashboard</span>
+                    <span id="pageBreadcrumb">Welcome back, Guru</span>
+                </div>
+                <div class="top-actions">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search anything..." id="globalSearch">
+                    </div>
+                    <div class="profile-btn" onclick="toggleProfileMenu()">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content-area" id="contentArea">
+                <iframe src="dashboard/overview.html" id="contentFrame" frameborder="0"></iframe>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle" style="color: var(--success);"></i>
+        <span id="toastMessage">Welcome to GURU AI</span>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Initialize particles
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 50, density: { enable: true, value_area: 800 } },
+                color: { value: '#6366f1' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.2, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#6366f1',
+                    opacity: 0.1,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1,
+                    direction: 'none',
+                    random: true,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: { enable: true, mode: 'repulse' },
+                    onclick: { enable: true, mode: 'push' },
+                    resize: true
+                }
+            },
+            retina_detect: true
+        });
+
+        // Update active page based on URL
+        function updateActivePage() {
+            const path = window.location.pathname;
+            const links = document.querySelectorAll('.nav-link');
+            
+            links.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === path) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Load content in iframe
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const href = this.getAttribute('href');
+                document.getElementById('contentFrame').src = href;
+                
+                // Update active state
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Update title
+                const pageName = this.querySelector('span').textContent;
+                document.getElementById('currentPageTitle').textContent = pageName;
+            });
+        });
+
+        // Global search
+        document.getElementById('globalSearch').addEventListener('input', function(e) {
+            if (e.target.value.length > 2) {
+                showToast(`Searching for "${e.target.value}"...`);
+            }
+        });
+
+        // Profile menu
+        function toggleProfileMenu() {
+            showToast('Profile menu - Coming soon!');
+        }
+
+        // Toast function
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+</html>
