@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders - GURU AI</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <base href="/dashboard/">
+    <style>
+        /* Page specific styles */
+        .page-container {
+            padding: 30px;
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Table styles */
+        .table-container {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            text-align: left;
+            padding: 15px;
+            color: var(--gray);
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .status-processing {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+        
+        .status-completed {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 12px;
+        }
+        
+        .btn:hover {
+            background: var(--gradient-primary);
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="page-header">
+            <h1 class="page-title">Orders Management</h1>
+            <button class="btn btn-primary" onclick="exportOrders()">
+                <i class="fas fa-download"></i> Export
+            </button>
+        </div>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Product</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersTable">
+                    <!-- Orders will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Sample orders data
+        const orders = [
+            { id: '#1001', customer: 'John Doe', product: 'Wireless Headphones', amount: '$299', status: 'processing', date: '2024-01-15' },
+            { id: '#1002', customer: 'Jane Smith', product: 'Smart Watch', amount: '$499', status: 'completed', date: '2024-01-14' },
+            { id: '#1003', customer: 'Bob Johnson', product: 'iPhone Case', amount: '$49', status: 'processing', date: '2024-01-14' },
+            { id: '#1004', customer: 'Alice Brown', product: 'MacBook Sleeve', amount: '$89', status: 'completed', date: '2024-01-13' },
+            { id: '#1005', customer: 'Charlie Wilson', product: 'AirPods', amount: '$249', status: 'processing', date: '2024-01-13' }
+        ];
+        
+        // Load orders
+        function loadOrders() {
+            const tbody = document.getElementById('ordersTable');
+            tbody.innerHTML = orders.map(order => `
+                <tr>
+                    <td>${order.id}</td>
+                    <td>${order.customer}</td>
+                    <td>${order.product}</td>
+                    <td>${order.amount}</td>
+                    <td><span class="status-badge status-${order.status}">${order.status}</span></td>
+                    <td>${order.date}</td>
+                    <td>
+                        <button class="btn" onclick="viewOrder('${order.id}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        function viewOrder(id) {
+            if (window.parent && window.parent.showToast) {
+                window.parent.showToast(`Viewing order ${id}`);
+            } else {
+                alert(`Viewing order ${id}`);
+            }
+        }
+        
+        function exportOrders() {
+            if (window.parent && window.parent.showToast) {
+                window.parent.showToast('Exporting orders...');
+            } else {
+                alert('Exporting orders...');
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', loadOrders);
+    </script>
+</body>
+</html>
