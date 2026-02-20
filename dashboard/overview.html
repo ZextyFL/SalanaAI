@@ -383,7 +383,7 @@
         <!-- Welcome Banner -->
         <div class="welcome-banner">
             <div class="welcome-text">
-                <h1>Welcome back, Guru! 👋</h1>
+                <h1>Welcome back, SOLANO! 👋</h1>
                 <p>Your store is performing great today. Here's your overview.</p>
             </div>
             <div class="welcome-stats">
@@ -589,8 +589,8 @@
             orders.unshift(newOrder);
             
             // Play sale sound
-            if (window.parent && window.parent.guruAPI) {
-                window.parent.guruAPI.playSaleSound();
+            if (window.parent && window.parent.SOLANOAPI) {
+                window.parent.SOLANOAPI.playSaleSound();
             }
             
             // Update UI
@@ -604,8 +604,8 @@
             const orderCount = document.getElementById('orderCount');
             
             // Get orders from parent if available
-            if (window.parent && window.parent.guruAPI) {
-                orders = window.parent.guruAPI.getOrders();
+            if (window.parent && window.parent.SOLANOAPI) {
+                orders = window.parent.SOLANOAPI.getOrders();
             }
             
             // If still empty, use sample data
@@ -631,11 +631,11 @@
 
         // Update metrics
         function updateMetrics() {
-            if (window.parent && window.parent.guruAPI) {
-                const metrics = window.parent.guruAPI.calculateMetrics();
-                document.getElementById('revenue').textContent = window.parent.guruAPI.formatCurrency(metrics.revenue);
+            if (window.parent && window.parent.SOLANOAPI) {
+                const metrics = window.parent.SOLANOAPI.calculateMetrics();
+                document.getElementById('revenue').textContent = window.parent.SOLANOAPI.formatCurrency(metrics.revenue);
                 document.getElementById('totalOrders').textContent = metrics.orders;
-                document.getElementById('aov').textContent = window.parent.guruAPI.formatCurrency(metrics.aov);
+                document.getElementById('aov').textContent = window.parent.SOLANOAPI.formatCurrency(metrics.aov);
             }
             
             // Update today's stats
