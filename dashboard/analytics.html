@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - GURU AI</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://kit.fontawesome.com/your-kit-code.js"></script>
+    <style>
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .analytics-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: var(--blur-xl);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+        }
+        
+        .analytics-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .analytics-title {
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .analytics-title i {
+            color: var(--primary);
+        }
+        
+        .date-range {
+            padding: 8px 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--gray);
+            font-size: 13px;
+        }
+        
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .kpi-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .kpi-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .kpi-label {
+            font-size: 13px;
+            color: var(--gray);
+        }
+        
+        .kpi-change {
+            font-size: 12px;
+            margin-top: 8px;
+            padding: 4px 8px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        
+        .positive-change {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+        
+        .negative-change {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+        
+        .insight-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .insight-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .insight-text {
+            color: var(--light);
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        
+        .metric-comparison {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .metric-comparison:last-child {
+            border-bottom: none;
+        }
+        
+        .metric-name {
+            color: var(--gray);
+            font-size: 14px;
+        }
+        
+        .metric-bars {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            width: 60%;
+        }
+        
+        .bar-container {
+            flex: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .bar-fill {
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: 10px;
+        }
+        
+        .metric-values {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+        
+        .current-value {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .previous-value {
+            color: var(--gray);
+        }
+    </style>
+</head>
+<body>
+    <div style="padding: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <h2 style="font-size: 24px;">📊 Advanced Analytics</h2>
+            <div style="display: flex; gap: 10px;">
+                <select class="date-range">
+                    <option>Last 7 days</option>
+                    <option>Last 30 days</option>
+                    <option>Last 90 days</option>
+                    <option>This year</option>
+                </select>
+                <button class="btn" onclick="exportAnalytics()">
+                    <i class="fas fa-download"></i> Export
+                </button>
+            </div>
+        </div>
+
+        <!-- KPI Grid -->
+        <div class="kpi-grid">
+            <div class="kpi-item">
+                <div class="kpi-value" id="totalRevenue">$124,567</div>
+                <div class="kpi-label">Total Revenue</div>
+                <div class="kpi-change positive-change">↑ 23.5%</div>
+            </div>
+            <div class="kpi-item">
+                <div class="kpi-value" id="totalOrders">1,456</div>
+                <div class="kpi-label">Total Orders</div>
+                <div class="kpi-change positive-change">↑ 15.3%</div>
+            </div>
+            <div class="kpi-item">
+                <div class="kpi-value" id="conversionRate">4.8%</div>
+                <div class="kpi-label">Conversion Rate</div>
+                <div class="kpi-change positive-change">↑ 1.2%</div>
+            </div>
+            <div class="kpi-item">
+                <div class="kpi-value" id="averageAOV">$89.50</div>
+                <div class="kpi-label">Avg. Order Value</div>
+                <div class="kpi-change positive-change">↑ 5.2%</div>
+            </div>
+        </div>
+
+        <!-- Analytics Grid -->
+        <div class="analytics-grid">
+            <!-- Sales Chart -->
+            <div class="analytics-card">
+                <div class="analytics-header">
+                    <div class="analytics-title">
+                        <i class="fas fa-chart-line"></i>
+                        Sales Overview
+                    </div>
+                </div>
+                <canvas id="salesChart" style="width:100%; height:250px;"></canvas>
+            </div>
+
+            <!-- Traffic Sources -->
+            <div class="analytics-card">
+                <div class="analytics-header">
+                    <div class="analytics-title">
+                        <i class="fas fa-traffic-light"></i>
+                        Traffic Sources
+                    </div>
+                </div>
+                <canvas id="trafficChart" style="width:100%; height:250px;"></canvas>
+            </div>
+        </div>
+
+        <!-- Second Row -->
+        <div class="analytics-grid">
+            <!-- Product Performance -->
+            <div class="analytics-card">
+                <div class="analytics-header">
+                    <div class="analytics-title">
+                        <i class="fas fa-crown"></i>
+                        Top Products
+                    </div>
+                </div>
+                <div id="topProducts">
+                    <!-- Will be populated by JS -->
+                </div>
+            </div>
+
+            <!-- Customer Insights -->
+            <div class="analytics-card">
+                <div class="analytics-header">
+                    <div class="analytics-title">
+                        <i class="fas fa-users"></i>
+                        Customer Insights
+                    </div>
+                </div>
+                <div id="customerInsights">
+                    <!-- Will be populated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Insights -->
+        <div class="insight-card">
+            <div class="insight-title">
+                <i class="fas fa-robot"></i>
+                AI-Generated Insights
+            </div>
+            <div class="insight-text" id="aiInsight">
+                Analyzing your data...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let salesChart, trafficChart;
+
+        // Initialize charts
+        function initCharts() {
+            // Sales Chart
+            const salesCtx = document.getElementById('salesChart').getContext('2d');
+            salesChart = new Chart(salesCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Revenue',
+                        data: [45000, 52000, 48000, 58000, 62000, 71000],
+                        borderColor: '#6366f1',
+                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { 
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            ticks: { color: '#94a3b8' }
+                        },
+                        x: { 
+                            grid: { display: false },
+                            ticks: { color: '#94a3b8' }
+                        }
+                    }
+                }
+            });
+
+            // Traffic Chart
+            const trafficCtx = document.getElementById('trafficChart').getContext('2d');
+            trafficChart = new Chart(trafficCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Direct', 'Social', 'Email', 'Organic', 'Paid'],
+                    datasets: [{
+                        data: [30, 25, 15, 20, 10],
+                        backgroundColor: [
+                            '#6366f1',
+                            '#8b5cf6',
+                            '#ec4899',
+                            '#10b981',
+                            '#f59e0b'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: '#94a3b8' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Load top products
+        function loadTopProducts() {
+            const products = [
+                { name: 'Premium Wireless Headphones', sales: 234, revenue: 69966 },
+                { name: 'Smart Watch Pro', sales: 187, revenue: 93313 },
+                { name: 'iPhone 15 Case Bundle', sales: 156, revenue: 7644 },
+                { name: 'MacBook Air Sleeve', sales: 143, revenue: 12727 },
+                { name: 'AirPods Max', sales: 98, revenue: 53802 }
+            ];
+
+            const container = document.getElementById('topProducts');
+            container.innerHTML = products.map(p => `
+                <div class="metric-comparison">
+                    <span class="metric-name">${p.name}</span>
+                    <div class="metric-bars">
+                        <div class="bar-container">
+                            <div class="bar-fill" style="width: ${(p.sales/250)*100}%"></div>
+                        </div>
+                        <div class="metric-values">
+                            <span class="current-value">${p.sales} sold</span>
+                            <span class="previous-value">$${p.revenue.toLocaleString()}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Load customer insights
+        function loadCustomerInsights() {
+            const insights = [
+                { metric: 'New Customers', current: 234, previous: 187 },
+                { metric: 'Returning Customers', current: 156, previous: 143 },
+                { metric: 'Avg. Session Duration', current: '4:32', previous: '3:45' },
+                { metric: 'Pages per Session', current: 5.2, previous: 4.8 },
+                { metric: 'Bounce Rate', current: '32%', previous: '38%' }
+            ];
+
+            const container = document.getElementById('customerInsights');
+            container.innerHTML = insights.map(i => `
+                <div class="metric-comparison">
+                    <span class="metric-name">${i.metric}</span>
+                    <div class="metric-values">
+                        <span class="current-value">${i.current}</span>
+                        <span class="previous-value">${i.previous}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Generate AI insights
+        function generateAIInsights() {
+            const insights = [
+                "📈 Your revenue is up 23.5% compared to last month. The biggest growth driver is your new retargeting campaign.",
+                "🎯 Conversion rate improved by 1.2% after you updated your product pages. Consider A/B testing your CTA buttons.",
+                "💰 Average order value increased by $4.50. Customers who buy headphones often add cases to their cart.",
+                "⭐ Your best time for email marketing is Tuesday at 10 AM. Open rates are 32% higher than other times.",
+                "🛍️ Cart abandonment rate is 68%. Implementing an exit-intent popup could recover 15% of these sales."
+            ];
+            
+            document.getElementById('aiInsight').textContent = insights[Math.floor(Math.random() * insights.length)];
+        }
+
+        // Export analytics
+        function exportAnalytics() {
+            window.parent.showToast('📊 Exporting analytics report...');
+            setTimeout(() => {
+                window.parent.showToast('✅ Analytics exported successfully!');
+            }, 2000);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initCharts();
+            loadTopProducts();
+            loadCustomerInsights();
+            generateAIInsights();
+            
+            // Update every 30 seconds
+            setInterval(generateAIInsights, 30000);
+        });
+    </script>
+</body>
+</html>

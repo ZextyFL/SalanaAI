@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Campaign Generator - GURU AI</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://kit.fontawesome.com/your-kit-code.js"></script>
+    <style>
+        .generator-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 20px;
+        }
+        
+        .input-section {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: var(--blur-xl);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+        }
+        
+        .preview-section {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: var(--blur-xl);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--gray);
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        
+        .upload-area {
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+        
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+        
+        .upload-area i {
+            font-size: 48px;
+            color: var(--gray);
+            margin-bottom: 15px;
+        }
+        
+        .upload-area p {
+            color: var(--gray);
+            margin-bottom: 5px;
+        }
+        
+        .upload-area small {
+            color: var(--gray);
+            font-size: 11px;
+        }
+        
+        #imagePreviewContainer {
+            position: relative;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        #imagePreview {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+        
+        .remove-image {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            background: var(--danger);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .generate-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 15px;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--border-glow);
+        }
+        
+        .generate-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .ad-preview {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+        
+        .ad-preview-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .preview-platform-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .preview-content {
+            margin-bottom: 20px;
+        }
+        
+        .preview-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+        }
+        
+        .preview-cta {
+            display: inline-block;
+            padding: 10px 25px;
+            background: var(--gradient-primary);
+            border-radius: 30px;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+        
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .loading-spinner.active {
+            display: block;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .generated-content {
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .copy-btn {
+            padding: 8px 15px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div style="padding: 20px;">
+        <h2 style="font-size: 24px; margin-bottom: 20px;">🤖 AI Campaign & Content Generator</h2>
+        <p style="color: var(--gray); margin-bottom: 30px;">Upload images and let AI generate high-converting ad campaigns</p>
+
+        <div class="generator-container">
+            <!-- Left Side - Input Form -->
+            <div class="input-section">
+                <h3 style="margin-bottom: 25px;">Campaign Details</h3>
+                
+                <div class="form-group">
+                    <label>Product/Brand Name</label>
+                    <input type="text" id="productName" placeholder="e.g., Premium Wireless Headphones">
+                </div>
+                
+                <div class="form-group">
+                    <label>Target Audience</label>
+                    <input type="text" id="targetAudience" placeholder="e.g., Tech enthusiasts, 25-40 years">
+                </div>
+                
+                <div class="form-group">
+                    <label>Key Benefits (comma separated)</label>
+                    <input type="text" id="keyBenefits" placeholder="e.g., Noise cancellation, 30hr battery, Comfortable fit">
+                </div>
+                
+                <div class="form-group">
+                    <label>Platform</label>
+                    <select id="platform">
+                        <option value="facebook">Facebook</option>
+                        <option value="instagram">Instagram</option>
+                        <option value="tiktok">TikTok</option>
+                        <option value="google">Google Ads</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Ad Objective</label>
+                    <select id="objective">
+                        <option value="awareness">Brand Awareness</option>
+                        <option value="traffic">Traffic</option>
+                        <option value="conversions">Conversions</option>
+                        <option value="engagement">Engagement</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Tone of Voice</label>
+                    <select id="tone">
+                        <option value="professional">Professional</option>
+                        <option value="casual">Casual & Friendly</option>
+                        <option value="urgent">Urgent & Exciting</option>
+                        <option value="storytelling">Storytelling</option>
+                    </select>
+                </div>
+                
+                <!-- Image Upload -->
+                <div class="form-group">
+                    <label>Product Images</label>
+                    <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload or drag and drop</p>
+                        <small>Supports: JPG, PNG, GIF (Max 10MB)</small>
+                    </div>
+                    <input type="file" id="fileInput" accept="image/*" multiple style="display: none;" onchange="handleImageUpload(this)">
+                    
+                    <div id="imagePreviewContainer">
+                        <img id="imagePreview" src="" alt="Preview">
+                        <button class="remove-image" onclick="removeImage()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div id="multiplePreviews" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px;">
+                        <!-- Multiple image previews will appear here -->
+                    </div>
+                </div>
+                
+                <button class="generate-btn" onclick="generateCampaign()" id="generateBtn">
+                    <i class="fas fa-magic"></i> Generate AI Campaign
+                </button>
+            </div>
+            
+            <!-- Right Side - Preview -->
+            <div class="preview-section">
+                <h3 style="margin-bottom: 25px;">AI Generated Preview</h3>
+                
+                <!-- Loading Spinner -->
+                <div class="loading-spinner" id="loadingSpinner">
+                    <div class="spinner"></div>
+                    <p style="color: var(--gray);">AI is generating your campaign...</p>
+                </div>
+                
+                <!-- Generated Content -->
+                <div id="generatedContent" class="generated-content" style="display: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h4>Your Ad Campaign</h4>
+                        <div>
+                            <button class="copy-btn" onclick="copyAllContent()">
+                                <i class="fas fa-copy"></i> Copy All
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Ad Preview -->
+                    <div class="ad-preview" id="adPreview">
+                        <div class="ad-preview-header">
+                            <div class="preview-platform-icon" style="background: #1877f2;">
+                                <i class="fab fa-facebook-f"></i>
+                            </div>
+                            <div>
+                                <strong id="previewHeadline">Premium Wireless Headphones</strong>
+                                <p style="color: var(--gray); font-size: 12px;" id="previewPlatform">Facebook • Sponsored</p>
+                            </div>
+                        </div>
+                        
+                        <div class="preview-image" id="previewImage">
+                            <i class="fas fa-image"></i>
+                        </div>
+                        
+                        <div class="preview-content">
+                            <p id="previewBody">Experience crystal clear sound with our premium wireless headphones. 30-hour battery life and active noise cancellation for the ultimate listening experience.</p>
+                        </div>
+                        
+                        <div class="preview-cta" id="previewCTA">
+                            Shop Now
+                        </div>
+                    </div>
+                    
+                    <!-- Generated Copy -->
+                    <div style="margin-top: 30px;">
+                        <h4 style="margin-bottom: 15px;">📝 Generated Ad Copy</h4>
+                        
+                        <div style="background: rgba(0,0,0,0.3); border-radius: 15px; padding: 20px;">
+                            <div style="margin-bottom: 20px;">
+                                <strong>Headline Options:</strong>
+                                <ul style="margin-top: 10px; list-style: none;" id="headlinesList">
+                                    <li style="padding: 8px; background: rgba(255,255,255,0.05); margin-bottom: 5px; border-radius: 8px;">• Experience Sound Like Never Before</li>
+                                    <li style="padding: 8px; background: rgba(255,255,255,0.05); margin-bottom: 5px; border-radius: 8px;">• 30 Hours of Pure Audio Bliss</li>
+                                    <li style="padding: 8px; background: rgba(255,255,255,0.05); border-radius: 8px;">• Block Out the World</li>
+                                </ul>
+                            </div>
+                            
+                            <div style="margin-bottom: 20px;">
+                                <strong>Primary Text:</strong>
+                                <p style="margin-top: 10px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 10px;" id="primaryText">
+                                    Tired of low-quality sound and short battery life? Meet our Premium Wireless Headphones - designed for audiophiles who demand the best.
+                                </p>
+                            </div>
+                            
+                            <div>
+                                <strong>CTA Suggestions:</strong>
+                                <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;" id="ctaList">
+                                    <span style="padding: 8px 16px; background: rgba(99,102,241,0.2); border-radius: 20px;">Shop Now</span>
+                                    <span style="padding: 8px 16px; background: rgba(99,102,241,0.2); border-radius: 20px;">Learn More</span>
+                                    <span style="padding: 8px 16px; background: rgba(99,102,241,0.2); border-radius: 20px;">Get 20% Off</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Audience Suggestions -->
+                    <div style="margin-top: 30px;">
+                        <h4 style="margin-bottom: 15px;">🎯 AI Audience Suggestions</h4>
+                        <div style="background: rgba(0,0,0,0.3); border-radius: 15px; padding: 20px;" id="audienceSuggestions">
+                            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
+                                <span class="audience-tag">Tech Enthusiasts</span>
+                                <span class="audience-tag">Ages 25-40</span>
+                                <span class="audience-tag">Interest: Music</span>
+                                <span class="audience-tag">Interest: Gaming</span>
+                            </div>
+                            <p style="color: var(--gray); font-size: 13px;">
+                                <i class="fas fa-chart-line"></i> Estimated Reach: 1.2M - 1.5M
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let uploadedImages = [];
+        
+        // Handle image upload
+        function handleImageUpload(input) {
+            const files = input.files;
+            const previewContainer = document.getElementById('multiplePreviews');
+            previewContainer.innerHTML = '';
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    uploadedImages.push(e.target.result);
+                    
+                    const imgDiv = document.createElement('div');
+                    imgDiv.style.position = 'relative';
+                    imgDiv.innerHTML = `
+                        <img src="${e.target.result}" style="width: 100%; height: 100px; object-fit: cover; border-radius: 10px;">
+                        <button class="remove-image" style="width: 20px; height: 20px; font-size: 10px;" onclick="removeSpecificImage(${i})">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    previewContainer.appendChild(imgDiv);
+                };
+                
+                reader.readAsDataURL(file);
+            }
+            
+            if (files.length > 0) {
+                window.parent.showToast(`📸 ${files.length} image(s) uploaded`);
+            }
+        }
+        
+        // Remove specific image
+        function removeSpecificImage(index) {
+            uploadedImages.splice(index, 1);
+            document.getElementById('multiplePreviews').innerHTML = '';
+            window.parent.showToast('Image removed');
+        }
+        
+        // Remove all images
+        function removeImage() {
+            uploadedImages = [];
+            document.getElementById('imagePreviewContainer').style.display = 'none';
+            document.getElementById('multiplePreviews').innerHTML = '';
+            document.getElementById('fileInput').value = '';
+        }
+        
+        // Generate campaign
+        function generateCampaign() {
+            const productName = document.getElementById('productName').value;
+            const audience = document.getElementById('targetAudience').value;
+            const benefits = document.getElementById('keyBenefits').value;
+            const platform = document.getElementById('platform').value;
+            const objective = document.getElementById('objective').value;
+            const tone = document.getElementById('tone').value;
+            
+            if (!productName || !audience) {
+                window.parent.showToast('⚠️ Please fill in product name and audience');
+                return;
+            }
+            
+            // Show loading
+            document.getElementById('loadingSpinner').classList.add('active');
+            document.getElementById('generatedContent').style.display = 'none';
+            document.getElementById('generateBtn').disabled = true;
+            
+            // Simulate AI generation
+            setTimeout(() => {
+                generateAIContent(productName, audience, benefits, platform, objective, tone);
+                document.getElementById('loadingSpinner').classList.remove('active');
+                document.getElementById('generatedContent').style.display = 'block';
+                document.getElementById('generateBtn').disabled = false;
+                window.parent.showToast('✅ Campaign generated successfully!');
+            }, 3000);
+        }
+        
+        // Generate AI content
+        function generateAIContent(product, audience, benefits, platform, objective, tone) {
+            // Update preview based on platform
+            const platformIcons = {
+                facebook: { bg: '#1877f2', icon: 'fab fa-facebook-f', name: 'Facebook' },
+                instagram: { bg: 'linear-gradient(45deg, #f09433, #bc1888)', icon: 'fab fa-instagram', name: 'Instagram' },
+                tiktok: { bg: '#000000', icon: 'fab fa-tiktok', name: 'TikTok' },
+                google: { bg: '#4285f4', icon: 'fab fa-google', name: 'Google' }
+            };
+            
+            const platformInfo = platformIcons[platform] || platformIcons.facebook;
+            document.querySelector('.preview-platform-icon').style.background = platformInfo.bg;
+            document.querySelector('.preview-platform-icon').innerHTML = `<i class="${platformInfo.icon}"></i>`;
+            document.getElementById('previewPlatform').textContent = `${platformInfo.name} • Sponsored`;
+            
+            // Generate headlines based on inputs
+            const headlines = [
+                `Experience ${product} Like Never Before`,
+                `Transform Your ${audience.split(',')[0]} Experience`,
+                `The Ultimate ${product} for ${audience.split(',')[0]}`,
+                `Why Everyone is Talking About ${product}`,
+                `Upgrade to ${product} Today`
+            ];
+            
+            document.getElementById('headlinesList').innerHTML = headlines.map(h => 
+                `<li style="padding: 8px; background: rgba(255,255,255,0.05); margin-bottom: 5px; border-radius: 8px;">• ${h}</li>`
+            ).join('');
+            
+            // Generate primary text
+            const benefitList = benefits.split(',').map(b => b.trim()).filter(b => b);
+            const benefitText = benefitList.length > 0 
+                ? benefitList.slice(0, 3).join(', ') 
+                : 'superior quality and performance';
+            
+            const primaryText = `Tired of products that don't deliver? Meet ${product} - designed specifically for ${audience}. Featuring ${benefitText}. Join thousands of satisfied customers who've made the switch. Limited time offer!`;
+            
+            document.getElementById('primaryText').textContent = primaryText;
+            document.getElementById('previewBody').textContent = primaryText;
+            document.getElementById('previewHeadline').textContent = product;
+            
+            // Generate CTAs based on objective
+            const ctas = {
+                awareness: ['Learn More', 'Discover Now', 'See Why'],
+                traffic: ['Shop Now', 'Visit Site', 'Browse Collection'],
+                conversions: ['Buy Now', 'Get 20% Off', 'Order Today'],
+                engagement: ['Sign Up', 'Join Now', 'Get Started']
+            };
+            
+            const ctaList = ctas[objective] || ctas.conversions;
+            document.getElementById('ctaList').innerHTML = ctaList.map(cta => 
+                `<span style="padding: 8px 16px; background: rgba(99,102,241,0.2); border-radius: 20px;">${cta}</span>`
+            ).join('');
+            document.getElementById('previewCTA').textContent = ctaList[0];
+            
+            // Generate audience suggestions
+            const interests = ['Music Lovers', 'Tech Enthusiasts', 'Gamers', 'Professionals', 'Early Adopters'];
+            const selectedInterests = interests.slice(0, 3).map(i => 
+                `<span class="audience-tag">Interest: ${i}</span>`
+            ).join('');
+            
+            const ageRanges = ['25-34', '35-44', '18-24'];
+            const selectedAge = ageRanges[0];
+            
+            document.getElementById('audienceSuggestions').innerHTML = `
+                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px;">
+                    <span class="audience-tag">Ages ${selectedAge}</span>
+                    ${selectedInterests}
+                    <span class="audience-tag">${audience.split(',')[0]}</span>
+                </div>
+                <p style="color: var(--gray); font-size: 13px;">
+                    <i class="fas fa-chart-line"></i> Estimated Reach: ${(Math.random() * 2 + 0.5).toFixed(1)}M - ${(Math.random() * 3 + 1).toFixed(1)}M
+                </p>
+            `;
+            
+            // Update preview image if any uploaded
+            if (uploadedImages.length > 0) {
+                const previewImageDiv = document.getElementById('previewImage');
+                previewImageDiv.innerHTML = `<img src="${uploadedImages[0]}" style="width: 100%; height: 100%; object-fit: cover;">`;
+            }
+        }
+        
+        // Copy all content
+        function copyAllContent() {
+            const headlines = document.getElementById('headlinesList').innerText;
+            const primaryText = document.getElementById('primaryText').innerText;
+            
+            const content = `HEADLINES:\n${headlines}\n\nPRIMARY TEXT:\n${primaryText}`;
+            
+            navigator.clipboard.writeText(content);
+            window.parent.showToast('📋 All content copied to clipboard!');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workflows - GURU AI</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://kit.fontawesome.com/your-kit-code.js"></script>
+    <style>
+        .workflow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .workflow-card {
+            background: rgba(15,23,42,0.6);
+            border-radius: 20px;
+            padding: 25px;
+            transition: all 0.3s;
+        }
+        
+        .workflow-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+        
+        .workflow-status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            margin-bottom: 15px;
+        }
+        
+        .status-active {
+            background: rgba(16,185,129,0.2);
+            color: var(--success);
+        }
+        
+        .workflow-trigger {
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div style="padding: 20px;">
+        <h2 style="font-size: 24px; margin-bottom: 30px;">⚡ Automation Workflows</h2>
+        
+        <div class="workflow-grid">
+            <div class="workflow-card">
+                <span class="workflow-status status-active">● Active</span>
+                <h3 style="margin-bottom: 10px;">Welcome Email Series</h3>
+                <p style="color: var(--gray); font-size: 13px;">Triggers when new customer signs up</p>
+                <div class="workflow-trigger">
+                    <i class="fas fa-bolt"></i> Trigger: New Customer
+                </div>
+                <div>Actions: Send welcome email (Day 1), Send discount (Day 3)</div>
+            </div>
+            
+            <div class="workflow-card">
+                <span class="workflow-status status-active">● Active</span>
+                <h3 style="margin-bottom: 10px;">Abandoned Cart Recovery</h3>
+                <p style="color: var(--gray); font-size: 13px;">Triggers when cart is abandoned</p>
+                <div class="workflow-trigger">
+                    <i class="fas fa-bolt"></i> Trigger: Cart Abandoned (1hr)
+                </div>
+                <div>Actions: Send reminder email, Send SMS after 24h</div>
+            </div>
+            
+            <div class="workflow-card">
+                <span class="workflow-status status-active">● Active</span>
+                <h3 style="margin-bottom: 10px;">Order Fulfillment</h3>
+                <p style="color: var(--gray); font-size: 13px;">Auto-fulfill paid orders</p>
+                <div class="workflow-trigger">
+                    <i class="fas fa-bolt"></i> Trigger: Payment Received
+                </div>
+                <div>Actions: Notify supplier, Update inventory, Send tracking</div>
+            </div>
+        </div>
+        
+        <button class="btn" style="margin-top: 30px;" onclick="createWorkflow()">
+            <i class="fas fa-plus"></i> Create New Workflow
+        </button>
+    </div>
+
+    <script>
+        function createWorkflow() {
+            window.parent.showToast('🔄 Opening workflow builder...');
+        }
+    </script>
+</body>
+</html>

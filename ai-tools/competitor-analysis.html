@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Competitor Analysis - GURU AI</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://kit.fontawesome.com/your-kit-code.js"></script>
+    <style>
+        .competitor-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .competitor-card {
+            background: rgba(15,23,42,0.6);
+            border-radius: 20px;
+            padding: 25px;
+        }
+        
+        .strength-bar {
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        
+        .strength-fill {
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div style="padding: 20px;">
+        <h2 style="font-size: 24px; margin-bottom: 30px;">🔍 AI Competitor Analysis</h2>
+        
+        <!-- Search -->
+        <div style="margin-bottom: 30px;">
+            <input type="text" class="search-input" placeholder="Enter competitor URL or name" style="width: 100%;">
+        </div>
+        
+        <!-- Analysis Grid -->
+        <div class="competitor-grid">
+            <div class="competitor-card">
+                <h3 style="margin-bottom: 15px;">Competitor A</h3>
+                <div class="strength-bar">
+                    <div class="strength-fill" style="width: 85%"></div>
+                </div>
+                <p>Market Share: 23%</p>
+                <p>Strengths: Social media presence, pricing</p>
+                <p>Weaknesses: Customer service, shipping speed</p>
+            </div>
+            <div class="competitor-card">
+                <h3 style="margin-bottom: 15px;">Competitor B</h3>
+                <div class="strength-bar">
+                    <div class="strength-fill" style="width: 72%"></div>
+                </div>
+                <p>Market Share: 18%</p>
+                <p>Strengths: Product quality, reviews</p>
+                <p>Weaknesses: High prices, limited selection</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

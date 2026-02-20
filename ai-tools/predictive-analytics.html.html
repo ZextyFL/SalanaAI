@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predictive Analytics - GURU AI</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://kit.fontawesome.com/your-kit-code.js"></script>
+    <style>
+        .predictive-container {
+            padding: 20px;
+        }
+        
+        .forecast-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .forecast-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: var(--blur-xl);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .forecast-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 15px 0;
+        }
+        
+        .confidence-badge {
+            padding: 4px 12px;
+            background: rgba(16, 185, 129, 0.2);
+            border-radius: 20px;
+            color: var(--success);
+            font-size: 12px;
+            display: inline-block;
+        }
+        
+        .insight-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .metric-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .metric-row:last-child {
+            border-bottom: none;
+        }
+        
+        .trend-indicator {
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        
+        .trend-up { background: rgba(16,185,129,0.2); color: var(--success); }
+        .trend-down { background: rgba(239,68,68,0.2); color: var(--danger); }
+    </style>
+</head>
+<body>
+    <div class="predictive-container">
+        <h2 style="font-size: 24px; margin-bottom: 20px;">🔮 AI Predictive Analytics</h2>
+        
+        <!-- Forecast Cards -->
+        <div class="forecast-grid">
+            <div class="forecast-card">
+                <i class="fas fa-chart-line" style="font-size: 30px; color: var(--primary);"></i>
+                <div class="forecast-value" id="nextMonthRevenue">$156,780</div>
+                <div>Projected Revenue (Next Month)</div>
+                <span class="confidence-badge">95% Confidence</span>
+            </div>
+            <div class="forecast-card">
+                <i class="fas fa-shopping-cart" style="font-size: 30px; color: var(--primary);"></i>
+                <div class="forecast-value" id="nextMonthOrders">1,890</div>
+                <div>Projected Orders</div>
+                <span class="confidence-badge">92% Confidence</span>
+            </div>
+            <div class="forecast-card">
+                <i class="fas fa-users" style="font-size: 30px; color: var(--primary);"></i>
+                <div class="forecast-value" id="nextMonthCustomers">345</div>
+                <div>New Customers</div>
+                <span class="confidence-badge">88% Confidence</span>
+            </div>
+        </div>
+        
+        <!-- AI Insights -->
+        <div class="insight-card">
+            <h3 style="margin-bottom: 20px;">🧠 AI Insights & Recommendations</h3>
+            <div id="aiPredictions"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const predictions = document.getElementById('aiPredictions');
+            predictions.innerHTML = `
+                <div class="metric-row">
+                    <span>📈 Revenue expected to increase by 23% next month</span>
+                    <span class="trend-indicator trend-up">↑ Trending</span>
+                </div>
+                <div class="metric-row">
+                    <span>🎯 Best time to launch campaign: March 15-20</span>
+                    <span class="trend-indicator trend-up">Optimal</span>
+                </div>
+                <div class="metric-row">
+                    <span>⚠️ Inventory alert: Headphones may run out by April</span>
+                    <span class="trend-indicator trend-down">Reorder soon</span>
+                </div>
+                <div class="metric-row">
+                    <span>💰 Recommended ad budget increase: 25%</span>
+                    <span class="trend-indicator trend-up">ROI: 4.2x</span>
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html>

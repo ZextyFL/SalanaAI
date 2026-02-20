@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - GURU AI</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://kit.fontawesome.com/your-kit-code.js"></script>
+    <style>
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .search-filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            color: white;
+            font-size: 14px;
+            min-width: 300px;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .filter-select {
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .product-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: var(--blur-xl);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: var(--border-glow);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .badge-low {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .badge-medium {
+            background: var(--warning);
+            color: white;
+        }
+        
+        .badge-high {
+            background: var(--success);
+            color: white;
+        }
+        
+        .product-info {
+            margin-bottom: 15px;
+        }
+        
+        .product-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .product-category {
+            font-size: 12px;
+            color: var(--gray);
+            margin-bottom: 10px;
+        }
+        
+        .product-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .product-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--light);
+        }
+        
+        .stat-label {
+            font-size: 11px;
+            color: var(--gray);
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .product-btn {
+            flex: 1;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 12px;
+        }
+        
+        .product-btn:hover {
+            background: var(--gradient-primary);
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .page-btn:hover,
+        .page-btn.active {
+            background: var(--gradient-primary);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            width: 500px;
+            max-width: 90%;
+            background: var(--dark);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+        }
+        
+        .modal-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .modal-form input,
+        .modal-form textarea,
+        .modal-form select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+        }
+        
+        .modal-form textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .image-upload-area {
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .image-upload-area:hover {
+            border-color: var(--primary);
+        }
+        
+        .image-upload-area i {
+            font-size: 40px;
+            color: var(--gray);
+            margin-bottom: 10px;
+        }
+        
+        #imagePreview {
+            max-width: 100%;
+            max-height: 200px;
+            display: none;
+            margin: 10px auto;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div style="padding: 20px;">
+        <div class="products-header">
+            <h2 style="font-size: 24px;">📦 Product Management</h2>
+            <button class="btn" onclick="showAddProductModal()">
+                <i class="fas fa-plus"></i> Add Product
+            </button>
+        </div>
+
+        <!-- Search and Filters -->
+        <div class="search-filters">
+            <input type="text" class="search-input" placeholder="Search products..." id="searchInput" oninput="filterProducts()">
+            <select class="filter-select" id="categoryFilter" onchange="filterProducts()">
+                <option value="all">All Categories</option>
+                <option value="electronics">Electronics</option>
+                <option value="accessories">Accessories</option>
+                <option value="wearables">Wearables</option>
+                <option value="audio">Audio</option>
+            </select>
+            <select class="filter-select" id="stockFilter" onchange="filterProducts()">
+                <option value="all">All Stock</option>
+                <option value="low">Low Stock</option>
+                <option value="in">In Stock</option>
+                <option value="out">Out of Stock</option>
+            </select>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid" id="productsGrid">
+            <!-- Products will be populated here -->
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination" id="pagination">
+            <!-- Pagination will be populated here -->
+        </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <h3 class="modal-title">Add New Product</h3>
+            <form class="modal-form" id="productForm">
+                <div class="image-upload-area" onclick="document.getElementById('productImage').click()">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Click to upload product image</p>
+                    <img id="imagePreview" src="" alt="Preview">
+                </div>
+                <input type="file" id="productImage" accept="image/*" style="display: none;" onchange="previewImage(this)">
+                
+                <input type="text" placeholder="Product Name" id="productName" required>
+                <select id="productCategory" required>
+                    <option value="">Select Category</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="accessories">Accessories</option>
+                    <option value="wearables">Wearables</option>
+                    <option value="audio">Audio</option>
+                </select>
+                <input type="number" placeholder="Price ($)" id="productPrice" required>
+                <input type="number" placeholder="Cost ($)" id="productCost" required>
+                <input type="number" placeholder="Stock Quantity" id="productStock" required>
+                <input type="number" placeholder="Low Stock Threshold" id="productThreshold" value="10">
+                <textarea placeholder="Product Description" id="productDescription" rows="3" required></textarea>
+                
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button type="button" class="btn" style="flex: 1;" onclick="saveProduct()">Save Product</button>
+                    <button type="button" class="btn" style="flex: 1; background: transparent;" onclick="closeModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let products = [
+            {
+                id: 1,
+                name: 'Premium Wireless Headphones',
+                category: 'audio',
+                price: 299,
+                cost: 180,
+                stock: 45,
+                threshold: 10,
+                sold: 234,
+                revenue: 69966,
+                image: '🎧',
+                description: 'High-quality wireless headphones with noise cancellation'
+            },
+            {
+                id: 2,
+                name: 'Smart Watch Pro',
+                category: 'wearables',
+                price: 499,
+                cost: 300,
+                stock: 23,
+                threshold: 8,
+                sold: 187,
+                revenue: 93313,
+                image: '⌚',
+                description: 'Advanced smartwatch with health tracking features'
+            },
+            {
+                id: 3,
+                name: 'iPhone 15 Pro Case',
+                category: 'accessories',
+                price: 49,
+                cost: 25,
+                stock: 156,
+                threshold: 20,
+                sold: 890,
+                revenue: 43610,
+                image: '📱',
+                description: 'Premium protective case for iPhone 15 Pro'
+            },
+            {
+                id: 4,
+                name: 'MacBook Air Sleeve',
+                category: 'accessories',
+                price: 89,
+                cost: 45,
+                stock: 67,
+                threshold: 15,
+                sold: 143,
+                revenue: 12727,
+                image: '💻',
+                description: 'Sleek and protective sleeve for MacBook Air'
+            },
+            {
+                id: 5,
+                name: 'AirPods Max',
+                category: 'audio',
+                price: 549,
+                cost: 350,
+                stock: 12,
+                threshold: 5,
+                sold: 98,
+                revenue: 53802,
+                image: '🎧',
+                description: 'Premium over-ear headphones with spatial audio'
+            },
+            {
+                id: 6,
+                name: 'iPad Pro 12.9"',
+                category: 'electronics',
+                price: 1199,
+                cost: 800,
+                stock: 8,
+                threshold: 3,
+                sold: 67,
+                revenue: 80333,
+                image: '📱',
+                description: 'Powerful iPad Pro with M2 chip'
+            },
+            {
+                id: 7,
+                name: 'Wireless Charger',
+                category: 'accessories',
+                price: 39,
+                cost: 20,
+                stock: 234,
+                threshold: 30,
+                sold: 567,
+                revenue: 22113,
+                image: '⚡',
+                description: 'Fast wireless charging pad'
+            },
+            {
+                id: 8,
+                name: 'Fitness Tracker',
+                category: 'wearables',
+                price: 129,
+                cost: 70,
+                stock: 89,
+                threshold: 15,
+                sold: 345,
+                revenue: 44505,
+                image: '🏃',
+                description: 'Advanced fitness and activity tracker'
+            }
+        ];
+
+        let currentPage = 1;
+        const itemsPerPage = 8;
+
+        // Load products
+        function loadProducts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const category = document.getElementById('categoryFilter').value;
+            const stockFilter = document.getElementById('stockFilter').value;
+            
+            let filteredProducts = products;
+            
+            // Apply search
+            if (searchTerm) {
+                filteredProducts = filteredProducts.filter(p => 
+                    p.name.toLowerCase().includes(searchTerm) ||
+                    p.category.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            // Apply category filter
+            if (category !== 'all') {
+                filteredProducts = filteredProducts.filter(p => p.category === category);
+            }
+            
+            // Apply stock filter
+            if (stockFilter === 'low') {
+                filteredProducts = filteredProducts.filter(p => p.stock <= p.threshold);
+            } else if (stockFilter === 'out') {
+                filteredProducts = filteredProducts.filter(p => p.stock === 0);
+            } else if (stockFilter === 'in') {
+                filteredProducts = filteredProducts.filter(p => p.stock > 0);
+            }
+            
+            // Pagination
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const paginatedProducts = filteredProducts.slice(start, end);
+            
+            displayProducts(paginatedProducts);
+            displayPagination(filteredProducts.length);
+        }
+
+        // Display products
+        function displayProducts(productsToShow) {
+            const grid = document.getElementById('productsGrid');
+            
+            grid.innerHTML = productsToShow.map(p => {
+                const stockStatus = p.stock <= p.threshold ? 'low' : p.stock === 0 ? 'out' : 'in';
+                const profit = p.price - p.cost;
+                const margin = ((profit / p.price) * 100).toFixed(1);
+                
+                return `
+                    <div class="product-card">
+                        <div class="product-image">
+                            ${p.image}
+                            ${p.stock <= p.threshold ? `<span class="product-badge badge-low">Low Stock</span>` : ''}
+                        </div>
+                        <div class="product-info">
+                            <div class="product-name">${p.name}</div>
+                            <div class="product-category">${p.category.charAt(0).toUpperCase() + p.category.slice(1)}</div>
+                            <div class="product-price">$${p.price}</div>
+                            <div class="product-stats">
+                                <div class="stat-item">
+                                    <div class="stat-value">${p.stock}</div>
+                                    <div class="stat-label">Stock</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">${p.sold}</div>
+                                    <div class="stat-label">Sold</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">$${profit}</div>
+                                    <div class="stat-label">Profit</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">${margin}%</div>
+                                    <div class="stat-label">Margin</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-actions">
+                            <button class="product-btn" onclick="editProduct(${p.id})">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="product-btn" onclick="duplicateProduct(${p.id})">
+                                <i class="fas fa-copy"></i> Duplicate
+                            </button>
+                            <button class="product-btn" onclick="deleteProduct(${p.id})">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Display pagination
+        function displayPagination(totalItems) {
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            const pagination = document.getElementById('pagination');
+            
+            let html = '';
+            for (let i = 1; i <= totalPages; i++) {
+                html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+            }
+            
+            pagination.innerHTML = html;
+        }
+
+        // Go to page
+        function goToPage(page) {
+            currentPage = page;
+            loadProducts();
+        }
+
+        // Filter products
+        function filterProducts() {
+            currentPage = 1;
+            loadProducts();
+        }
+
+        // Show add product modal
+        function showAddProductModal() {
+            document.getElementById('productModal').classList.add('active');
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('productModal').classList.remove('active');
+            document.getElementById('productForm').reset();
+            document.getElementById('imagePreview').style.display = 'none';
+        }
+
+        // Preview image
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('imagePreview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Save product
+        function saveProduct() {
+            const name = document.getElementById('productName').value;
+            const category = document.getElementById('productCategory').value;
+            const price = parseFloat(document.getElementById('productPrice').value);
+            const cost = parseFloat(document.getElementById('productCost').value);
+            const stock = parseInt(document.getElementById('productStock').value);
+            const threshold = parseInt(document.getElementById('productThreshold').value);
+            const description = document.getElementById('productDescription').value;
+            
+            if (!name || !category || !price || !cost || !stock) {
+                window.parent.showToast('⚠️ Please fill all fields');
+                return;
+            }
+            
+            const newProduct = {
+                id: products.length + 1,
+                name: name,
+                category: category,
+                price: price,
+                cost: cost,
+                stock: stock,
+                threshold: threshold,
+                sold: 0,
+                revenue: 0,
+                image: '📦',
+                description: description
+            };
+            
+            products.push(newProduct);
+            closeModal();
+            loadProducts();
+            window.parent.showToast('✅ Product added successfully!');
+        }
+
+        // Edit product
+        function editProduct(id) {
+            window.parent.showToast(`📝 Editing product #${id}`);
+        }
+
+        // Duplicate product
+        function duplicateProduct(id) {
+            const product = products.find(p => p.id === id);
+            if (product) {
+                const newProduct = { ...product, id: products.length + 1, name: product.name + ' (Copy)' };
+                products.push(newProduct);
+                loadProducts();
+                window.parent.showToast('📋 Product duplicated');
+            }
+        }
+
+        // Delete product
+        function deleteProduct(id) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                products = products.filter(p => p.id !== id);
+                loadProducts();
+                window.parent.showToast('🗑️ Product deleted');
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProducts();
+        });
+    </script>
+</body>
+</html>

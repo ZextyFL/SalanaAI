@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alerts - GURU AI</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://kit.fontawesome.com/your-kit-code.js"></script>
+    <style>
+        .alerts-container {
+            padding: 20px;
+        }
+        
+        .alert-filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            color: var(--gray);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 13px;
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--gradient-primary);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .alert-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: var(--blur-xl);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            animation: slideIn 0.3s;
+            transition: all 0.3s;
+        }
+        
+        .alert-card:hover {
+            transform: translateX(5px);
+            border-color: var(--primary);
+        }
+        
+        .alert-card.high-priority {
+            border-left: 4px solid var(--danger);
+        }
+        
+        .alert-card.medium-priority {
+            border-left: 4px solid var(--warning);
+        }
+        
+        .alert-card.low-priority {
+            border-left: 4px solid var(--success);
+        }
+        
+        .alert-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .alert-icon.high { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+        .alert-icon.medium { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+        .alert-icon.low { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+        
+        .alert-content {
+            flex: 1;
+        }
+        
+        .alert-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .alert-time {
+            font-size: 12px;
+            color: var(--gray);
+        }
+        
+        .alert-description {
+            font-size: 14px;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+        
+        .alert-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .alert-action-btn {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--light);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 12px;
+        }
+        
+        .alert-action-btn:hover {
+            background: var(--gradient-primary);
+        }
+        
+        .alert-badge {
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .badge-high { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+        .badge-medium { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+        .badge-low { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px;
+            color: var(--gray);
+        }
+        
+        .empty-state i {
+            font-size: 60px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="alerts-container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <h2 style="font-size: 24px;">🔔 Alerts & Notifications</h2>
+            <button class="btn" onclick="markAllAsRead()">
+                <i class="fas fa-check-double"></i> Mark All as Read
+            </button>
+        </div>
+
+        <!-- Filters -->
+        <div class="alert-filters">
+            <button class="filter-btn active" onclick="filterAlerts('all')">All</button>
+            <button class="filter-btn" onclick="filterAlerts('high')">High Priority</button>
+            <button class="filter-btn" onclick="filterAlerts('medium')">Medium Priority</button>
+            <button class="filter-btn" onclick="filterAlerts('low')">Low Priority</button>
+            <button class="filter-btn" onclick="filterAlerts('unread')">Unread</button>
+        </div>
+
+        <!-- Alerts List -->
+        <div id="alertsList">
+            <!-- Alerts will be populated here -->
+        </div>
+    </div>
+
+    <script>
+        let alerts = [
+            {
+                id: 1,
+                title: '⚠️ Low Inventory Alert',
+                description: 'Premium Wireless Headphones are running low (12 units left). Reorder now to avoid stockout.',
+                time: '5 minutes ago',
+                priority: 'high',
+                category: 'inventory',
+                read: false,
+                icon: '📦'
+            },
+            {
+                id: 2,
+                title: '📈 Campaign Performance',
+                description: 'Your Facebook retargeting campaign ROAS dropped by 15%. Consider adjusting your audience.',
+                time: '25 minutes ago',
+                priority: 'high',
+                category: 'marketing',
+                read: false,
+                icon: '🎯'
+            },
+            {
+                id: 3,
+                title: '💰 Large Order Received',
+                description: 'New order #2341 for $1,299 from corporate customer. Ready for processing.',
+                time: '1 hour ago',
+                priority: 'medium',
+                category: 'orders',
+                read: false,
+                icon: '🛍️'
+            },
+            {
+                id: 4,
+                title: '🤖 AI Suggestion',
+                description: 'Based on recent trends, consider bundling headphones with cases to increase AOV by 25%.',
+                time: '2 hours ago',
+                priority: 'low',
+                category: 'ai',
+                read: true,
+                icon: '💡'
+            },
+            {
+                id: 5,
+                title: '💳 Supplier Payment',
+                description: 'Monthly supplier payment of $12,450 is due in 3 days.',
+                time: '3 hours ago',
+                priority: 'medium',
+                category: 'finance',
+                read: false,
+                icon: '💰'
+            },
+            {
+                id: 6,
+                title: '📊 Weekly Report Ready',
+                description: 'Your weekly analytics report is ready to view. Sales up 23% compared to last week.',
+                time: '5 hours ago',
+                priority: 'low',
+                category: 'report',
+                read: true,
+                icon: '📊'
+            },
+            {
+                id: 7,
+                title: '🚨 Ad Spend Threshold',
+                description: 'Facebook Ads have reached 80% of daily budget ($400/$500). Consider increasing budget.',
+                time: '6 hours ago',
+                priority: 'high',
+                category: 'marketing',
+                read: false,
+                icon: '📢'
+            },
+            {
+                id: 8,
+                title: '⭐ New 5-Star Review',
+                description: 'Customer left a 5-star review for Smart Watch Pro. Great for social proof!',
+                time: '8 hours ago',
+                priority: 'low',
+                category: 'reviews',
+                read: true,
+                icon: '⭐'
+            }
+        ];
+
+        // Load alerts
+        function loadAlerts(filter = 'all') {
+            const container = document.getElementById('alertsList');
+            
+            let filteredAlerts = alerts;
+            if (filter !== 'all') {
+                if (filter === 'unread') {
+                    filteredAlerts = alerts.filter(a => !a.read);
+                } else {
+                    filteredAlerts = alerts.filter(a => a.priority === filter);
+                }
+            }
+            
+            if (filteredAlerts.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-bell-slash"></i>
+                        <h3>No alerts found</h3>
+                        <p style="color: var(--gray); margin-top: 10px;">You're all caught up!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = filteredAlerts.map(alert => `
+                <div class="alert-card ${alert.priority}-priority ${!alert.read ? 'unread' : ''}" data-id="${alert.id}">
+                    <div class="alert-icon ${alert.priority}">
+                        ${alert.icon}
+                    </div>
+                    <div class="alert-content">
+                        <div class="alert-title">
+                            ${alert.title}
+                            <span class="alert-badge badge-${alert.priority}">${alert.priority}</span>
+                            ${!alert.read ? '<span style="color: var(--primary); font-size: 11px;">NEW</span>' : ''}
+                        </div>
+                        <div class="alert-description">${alert.description}</div>
+                        <div class="alert-time">${alert.time}</div>
+                    </div>
+                    <div class="alert-actions">
+                        <button class="alert-action-btn" onclick="viewAlert(${alert.id})">
+                            <i class="fas fa-eye"></i> View
+                        </button>
+                        <button class="alert-action-btn" onclick="markAsRead(${alert.id})">
+                            <i class="fas fa-check"></i> Mark Read
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter alerts
+        function filterAlerts(filter) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            loadAlerts(filter);
+        }
+
+        // Mark as read
+        function markAsRead(id) {
+            const alert = alerts.find(a => a.id === id);
+            if (alert) {
+                alert.read = true;
+                loadAlerts(document.querySelector('.filter-btn.active').textContent.toLowerCase());
+                updateBadgeCount();
+                window.parent.showToast('Alert marked as read');
+            }
+        }
+
+        // Mark all as read
+        function markAllAsRead() {
+            alerts.forEach(alert => alert.read = true);
+            loadAlerts(document.querySelector('.filter-btn.active').textContent.toLowerCase());
+            updateBadgeCount();
+            window.parent.showToast('All alerts marked as read');
+        }
+
+        // View alert
+        function viewAlert(id) {
+            const alert = alerts.find(a => a.id === id);
+            window.parent.showToast(`Viewing: ${alert.title}`);
+        }
+
+        // Update badge count
+        function updateBadgeCount() {
+            const unreadCount = alerts.filter(a => !a.read).length;
+            const alertBadge = window.parent.document.getElementById('alertBadge');
+            if (alertBadge) {
+                alertBadge.textContent = unreadCount;
+            }
+        }
+
+        // Simulate new alert
+        function simulateNewAlert() {
+            const newAlerts = [
+                {
+                    title: '🚀 New Record!',
+                    description: 'You just hit a new sales record! $5,234 in the last hour.',
+                    priority: 'high',
+                    icon: '🏆'
+                },
+                {
+                    title: '📱 App Update',
+                    description: 'New AI features available. Update to access campaign generator.',
+                    priority: 'low',
+                    icon: '🔄'
+                },
+                {
+                    title: '💰 Big Order',
+                    description: 'Order #' + Math.floor(Math.random() * 10000) + ' for $2,499 received.',
+                    priority: 'medium',
+                    icon: '💎'
+                }
+            ];
+            
+            const newAlert = newAlerts[Math.floor(Math.random() * newAlerts.length)];
+            const alert = {
+                id: alerts.length + 1,
+                title: newAlert.title,
+                description: newAlert.description,
+                time: 'Just now',
+                priority: newAlert.priority,
+                category: 'system',
+                read: false,
+                icon: newAlert.icon
+            };
+            
+            alerts.unshift(alert);
+            loadAlerts(document.querySelector('.filter-btn.active').textContent.toLowerCase());
+            updateBadgeCount();
+            window.parent.showToast('🔔 New alert received!');
+            window.parent.playSaleSound();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAlerts();
+            updateBadgeCount();
+            
+            // Simulate new alerts every 60 seconds
+            setInterval(simulateNewAlert, 60000);
+        });
+    </script>
+</body>
+</html>

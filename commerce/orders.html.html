@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders - GURU AI</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .orders-table th {
+            text-align: left;
+            padding: 15px;
+            color: var(--gray);
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .orders-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-processing { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+        .status-completed { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+        .status-cancelled { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+    </style>
+</head>
+<body>
+    <div style="padding: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <h2 style="font-size: 24px;">📦 Orders Management</h2>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn" onclick="exportOrders()">Export</button>
+                <button class="btn" onclick="refreshOrders()">Refresh</button>
+            </div>
+        </div>
+        
+        <div style="background: rgba(15,23,42,0.6); border-radius: 20px; padding: 20px;">
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Product</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersTableBody">
+                    <!-- Orders will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script>
+        function loadOrders() {
+            const orders = window.parent.guruAPI.getOrders();
+            const tbody = document.getElementById('ordersTableBody');
+            
+            tbody.innerHTML = orders.map(order => `
+                <tr>
+                    <td>#${order.id}</td>
+                    <td>${order.customer}</td>
+                    <td>${order.product}</td>
+                    <td>$${order.amount}</td>
+                    <td><span class="status-badge status-${order.status}">${order.status}</span></td>
+                    <td>${new Date(order.date).toLocaleDateString()}</td>
+                    <td>
+                        <button class="btn" style="padding: 5px 10px;" onclick="viewOrder(${order.id})">View</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        function viewOrder(id) {
+            window.parent.showToast(`Viewing order #${id}`);
+        }
+        
+        function exportOrders() {
+            window.parent.showToast('Exporting orders...');
+        }
+        
+        function refreshOrders() {
+            loadOrders();
+            window.parent.showToast('Orders refreshed');
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadOrders);
+        window.addEventListener('newOrder', loadOrders);
+    </script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overview - GURU AI</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://kit.fontawesome.com/your-kit-code.js"></script>
+    <style>
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .metric-card {
+            padding: 25px;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: var(--blur-xl);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+        }
+        
+        .metric-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .metric-title {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 8px;
+        }
+        
+        .metric-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .chart-card {
+            padding: 25px;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: var(--blur-xl);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .chart-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+        }
+        
+        .status-processing { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
+        .status-completed { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+    </style>
+</head>
+<body>
+    <div style="padding: 20px;">
+        <h2 style="margin-bottom: 30px; font-size: 24px;">📊 Overview Dashboard</h2>
+        
+        <!-- Metrics Grid -->
+        <div class="metrics-grid" id="metricsGrid">
+            <div class="metric-card">
+                <div class="metric-icon">💰</div>
+                <div class="metric-title">Total Revenue</div>
+                <div class="metric-value" id="revenue">$124,567</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon">📊</div>
+                <div class="metric-title">Ad Spend</div>
+                <div class="metric-value" id="adSpend">$23,456</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon">🎯</div>
+                <div class="metric-title">Conversion Rate</div>
+                <div class="metric-value" id="conversionRate">4.8%</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon">🛒</div>
+                <div class="metric-title">Avg Order Value</div>
+                <div class="metric-value" id="aov">$89.50</div>
+            </div>
+        </div>
+        
+        <!-- Charts -->
+        <div class="charts-grid">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Sales Performance</div>
+                </div>
+                <canvas id="salesChart" style="width:100%; height:250px;"></canvas>
+            </div>
+            
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Recent Orders</div>
+                </div>
+                <div id="ordersList"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let chart;
+        
+        // Initialize chart
+        function initChart() {
+            const ctx = document.getElementById('salesChart').getContext('2d');
+            const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(99, 102, 241, 0.4)');
+            gradient.addColorStop(1, 'rgba(99, 102, 241, 0)');
+            
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Sales',
+                        data: [42500, 48200, 46800, 52300, 58900, 63400, 71200],
+                        borderColor: '#6366f1',
+                        backgroundColor: gradient,
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { 
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            ticks: { color: '#94a3b8' }
+                        },
+                        x: { 
+                            grid: { display: false },
+                            ticks: { color: '#94a3b8' }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Load orders
+        function loadOrders() {
+            const orders = window.parent.guruAPI.getOrders();
+            const ordersList = document.getElementById('ordersList');
+            
+            ordersList.innerHTML = orders.slice(0, 5).map(order => `
+                <div class="order-item">
+                    <div>
+                        <div style="font-weight: 600;">${order.customer}</div>
+                        <div style="font-size: 12px; color: var(--gray);">${order.product}</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div>$${order.amount}</div>
+                        <span class="status-badge status-${order.status}">${order.status}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Update metrics
+        function updateMetrics() {
+            const metrics = window.parent.guruAPI.calculateMetrics();
+            document.getElementById('revenue').textContent = window.parent.guruAPI.formatCurrency(metrics.revenue);
+            document.getElementById('aov').textContent = window.parent.guruAPI.formatCurrency(metrics.aov);
+        }
+        
+        // Listen for new orders
+        window.addEventListener('newOrder', function() {
+            loadOrders();
+            updateMetrics();
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initChart();
+            loadOrders();
+            updateMetrics();
+        });
+    </script>
+</body>
+</html>

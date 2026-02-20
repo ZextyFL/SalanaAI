@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Generator - GURU AI</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://kit.fontawesome.com/your-kit-code.js"></script>
+    <style>
+        .content-types {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .content-type-btn {
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .content-type-btn:hover,
+        .content-type-btn.active {
+            background: var(--gradient-primary);
+            border-color: transparent;
+        }
+        
+        .content-type-btn i {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .generated-box {
+            background: rgba(15,23,42,0.6);
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div style="padding: 20px;">
+        <h2 style="font-size: 24px; margin-bottom: 30px;">✍️ AI Content Generator</h2>
+        
+        <!-- Content Types -->
+        <div class="content-types">
+            <div class="content-type-btn active" onclick="selectContentType('email')">
+                <i class="fas fa-envelope"></i>
+                <div>Email</div>
+            </div>
+            <div class="content-type-btn" onclick="selectContentType('sms')">
+                <i class="fas fa-sms"></i>
+                <div>SMS</div>
+            </div>
+            <div class="content-type-btn" onclick="selectContentType('social')">
+                <i class="fas fa-hashtag"></i>
+                <div>Social</div>
+            </div>
+            <div class="content-type-btn" onclick="selectContentType('blog')">
+                <i class="fas fa-blog"></i>
+                <div>Blog</div>
+            </div>
+        </div>
+        
+        <!-- Input Form -->
+        <div style="background: rgba(15,23,42,0.6); border-radius: 20px; padding: 25px;">
+            <div class="form-group">
+                <label>Topic/Product</label>
+                <input type="text" id="contentTopic" placeholder="e.g., Wireless Headphones">
+            </div>
+            <div class="form-group">
+                <label>Key Points (comma separated)</label>
+                <input type="text" id="contentPoints" placeholder="e.g., noise cancellation, long battery, comfort">
+            </div>
+            <div class="form-group">
+                <label>Tone</label>
+                <select id="contentTone">
+                    <option>Professional</option>
+                    <option>Casual</option>
+                    <option>Exciting</option>
+                    <option>Urgent</option>
+                </select>
+            </div>
+            <button class="generate-btn" onclick="generateContent()">
+                <i class="fas fa-magic"></i> Generate Content
+            </button>
+        </div>
+        
+        <!-- Generated Content -->
+        <div class="generated-box" id="generatedContent" style="display: none;">
+            <h3 style="margin-bottom: 15px;">Generated Content</h3>
+            <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px;" id="contentResult">
+                <!-- Generated content will appear here -->
+            </div>
+            <button class="copy-btn" style="margin-top: 15px;" onclick="copyGenerated()">
+                <i class="fas fa-copy"></i> Copy
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function selectContentType(type) {
+            document.querySelectorAll('.content-type-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.content-type-btn').classList.add('active');
+        }
+        
+        function generateContent() {
+            const topic = document.getElementById('contentTopic').value;
+            const points = document.getElementById('contentPoints').value;
+            const tone = document.getElementById('contentTone').value;
+            const type = document.querySelector('.content-type-btn.active').innerText.trim();
+            
+            if (!topic) {
+                window.parent.showToast('⚠️ Please enter a topic');
+                return;
+            }
+            
+            const result = document.getElementById('contentResult');
+            result.innerHTML = `<p>Experience the ultimate in ${topic} with our latest collection. ${points.split(',').map(p => p.trim()).join(', ')} - all designed with you in mind. Shop now and experience the difference!</p>`;
+            
+            document.getElementById('generatedContent').style.display = 'block';
+            window.parent.showToast('✅ Content generated!');
+        }
+        
+        function copyGenerated() {
+            const text = document.getElementById('contentResult').innerText;
+            navigator.clipboard.writeText(text);
+            window.parent.showToast('📋 Copied to clipboard!');
+        }
+    </script>
+</body>
+</html>

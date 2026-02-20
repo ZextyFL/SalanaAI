@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Ads - GURU AI</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://kit.fontawesome.com/your-kit-code.js"></script>
+    <style>
+        .platform-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .platform-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: white;
+        }
+        
+        .connection-status {
+            margin-left: auto;
+            padding: 8px 16px;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid var(--success);
+            border-radius: 30px;
+            color: var(--success);
+        }
+        
+        .sync-btn {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 15px;
+        }
+        
+        .story-preview {
+            display: flex;
+            gap: 15px;
+            overflow-x: auto;
+            padding: 20px 0;
+        }
+        
+        .story-item {
+            min-width: 120px;
+            text-align: center;
+        }
+        
+        .story-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #f09433, #bc1888);
+            padding: 3px;
+            margin: 0 auto 10px;
+        }
+        
+        .story-circle img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--dark);
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div style="padding: 20px;">
+        <div class="platform-header">
+            <div class="platform-icon">
+                <i class="fab fa-instagram"></i>
+            </div>
+            <div>
+                <h2 style="font-size: 28px;">Instagram Ads Manager</h2>
+                <p style="color: var(--gray);">Reach customers through Instagram</p>
+            </div>
+            <div class="connection-status">
+                <i class="fas fa-check-circle"></i> Connected
+            </div>
+            <button class="sync-btn" onclick="syncInstagram()">
+                <i class="fas fa-sync"></i> Sync
+            </button>
+        </div>
+
+        <!-- Story Previews -->
+        <h3 style="margin: 30px 0 20px;">Active Stories</h3>
+        <div class="story-preview">
+            <div class="story-item">
+                <div class="story-circle"></div>
+                <p style="font-size: 12px;">Summer Sale</p>
+            </div>
+            <div class="story-item">
+                <div class="story-circle"></div>
+                <p style="font-size: 12px;">New Arrivals</p>
+            </div>
+            <div class="story-item">
+                <div class="story-circle"></div>
+                <p style="font-size: 12px;">Behind the Scenes</p>
+            </div>
+        </div>
+
+        <!-- Ad Sets Grid -->
+        <h3 style="margin: 30px 0 20px;">Active Campaigns</h3>
+        <div class="ad-sets-grid" id="instagramCampaigns"></div>
+    </div>
+
+    <script>
+        function syncInstagram() {
+            window.parent.showToast('🔄 Syncing with Instagram...');
+            setTimeout(() => {
+                window.parent.showToast('✅ Instagram sync complete!');
+            }, 2000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const grid = document.getElementById('instagramCampaigns');
+            grid.innerHTML = `
+                <div class="ad-set-card">
+                    <h4>📸 Stories Campaign</h4>
+                    <div style="margin: 15px 0;">
+                        <span class="audience-tag">Stories</span>
+                        <span class="audience-tag">Feed</span>
+                        <span class="audience-tag">Reels</span>
+                    </div>
+                    <div class="campaign-metrics">
+                        <div class="metric-item">
+                            <div class="metric-number">$345</div>
+                            <div class="metric-label">Spent</div>
+                        </div>
+                        <div class="metric-item">
+                            <div class="metric-number">$1,234</div>
+                            <div class="metric-label">Revenue</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html>
