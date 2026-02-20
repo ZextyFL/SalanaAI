@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Assistant - GURU AI Chat</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <base href="/dashboard/">
+    <style>
+        .chat-container {
+            height: calc(100vh - 100px);
+            display: flex;
+            flex-direction: column;
+            padding: 30px;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .message {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            max-width: 80%;
+            animation: slideIn 0.3s;
+        }
+        
+        .message.user {
+            margin-left: auto;
+            flex-direction: row-reverse;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .message-content {
+            padding: 12px 18px;
+            border-radius: 15px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .message.ai .message-content {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom-left-radius: 5px;
+        }
+        
+        .message.user .message-content {
+            background: var(--gradient-primary);
+            border-bottom-right-radius: 5px;
+        }
+        
+        .chat-input-area {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 10px;
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .chat-input-area input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 12px 20px;
+            color: white;
+        }
+        
+        .chat-input-area input:focus {
+            outline: none;
+        }
+        
+        .chat-input-area button {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .chat-input-area button:hover {
+            transform: scale(1.1);
+        }
+        
+        .suggestions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .suggestion-chip {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .suggestion-chip:hover {
+            background: var(--gradient-primary);
+        }
+        
+        .typing-indicator {
+            display: flex;
+            gap: 5px;
+            padding: 15px 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            width: fit-content;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+        
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-messages" id="chatMessages">
+            <div class="message ai">
+                <div class="message-avatar">AI</div>
+                <div class="message-content">
+                    👋 Hello! I'm your AI assistant. How can I help you with your store today?
+                </div>
+            </div>
+        </div>
+        
+        <div class="suggestions">
+            <span class="suggestion-chip" onclick="quickQuestion('campaign')">📊 Campaign performance</span>
+            <span class="suggestion-chip" onclick="quickQuestion('inventory')">📦 Inventory forecast</span>
+            <span class="suggestion-chip" onclick="quickQuestion('email')">✉️ Email tips</span>
+        </div>
+        
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Ask me anything..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message
+            addMessage(message, 'user');
+            input.value = '';
+            
+            // Show typing indicator
+            showTyping();
+            
+            // Simulate AI response
+            setTimeout(() => {
+                removeTyping();
+                generateResponse(message);
+            }, 1500);
+        }
+        
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        }
+        
+        function addMessage(text, sender) {
+            const messages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            messageDiv.innerHTML = `
+                <div class="message-avatar">${sender === 'ai' ? 'AI' : 'You'}</div>
+                <div class="message-content">${text}</div>
+            `;
+            messages.appendChild(messageDiv);
+            messages.scrollTop = messages.scrollHeight;
+        }
+        
+        function showTyping() {
+            const messages = document.getElementById('chatMessages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message ai';
+            typingDiv.id = 'typingIndicator';
+            typingDiv.innerHTML = `
+                <div class="message-avatar">AI</div>
+                <div class="typing-indicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            `;
+            messages.appendChild(typingDiv);
+            messages.scrollTop = messages.scrollHeight;
+        }
+        
+        function removeTyping() {
+            const typing = document.getElementById('typingIndicator');
+            if (typing) typing.remove();
+        }
+        
+        function generateResponse(message) {
+            const responses = {
+                'campaign': 'Your Facebook campaigns are performing 23% above average. Consider increasing budget by 15%.',
+                'inventory': 'Based on current trends, you'll need to reorder headphones within 2 weeks.',
+                'email': 'Your email open rate is 42%. Try sending at 10am for best results.',
+                'default': 'I understand. Let me help you with that. Could you provide more details?'
+            };
+            
+            let response = responses.default;
+            const lowerMessage = message.toLowerCase();
+            
+            if (lowerMessage.includes('campaign')) response = responses.campaign;
+            else if (lowerMessage.includes('inventory')) response = responses.inventory;
+            else if (lowerMessage.includes('email')) response = responses.email;
+            
+            addMessage(response, 'ai');
+        }
+        
+        function quickQuestion(type) {
+            const questions = {
+                'campaign': 'How are my campaigns performing?',
+                'inventory': 'What should I know about my inventory?',
+                'email': 'Any tips for my email marketing?'
+            };
+            
+            document.getElementById('chatInput').value = questions[type];
+            sendMessage();
+        }
+    </script>
+</body>
+</html>
